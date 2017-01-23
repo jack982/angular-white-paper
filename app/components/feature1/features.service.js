@@ -11,7 +11,7 @@
 
     function service() {
         var features = ['ui-router', 'bootstrap', 'karma'];
-        
+
         return {
             'list': function () {
                 return features;
@@ -22,6 +22,9 @@
                     feature = features[index];
                 }
                 return feature;
+            },
+            'add': function( item ) {
+                features.push( item );
             }
         };
     }

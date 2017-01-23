@@ -14,6 +14,13 @@
     vm.title = 'feature1';
       
     vm.features = featuresService.list();
+      
+    vm.item = null;
+      
+    vm.addItem = function( ) {
+        featuresService.add( vm.item );
+        vm.item = null;
+    }
   }
 
 

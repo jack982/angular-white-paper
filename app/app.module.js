@@ -9,7 +9,7 @@
 
   function appCtrl($scope) {
     var vm = this;
-    vm.title = "test";
+    vm.title = "index";
   }
 
 
