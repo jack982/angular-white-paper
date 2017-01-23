@@ -2,23 +2,19 @@
 
   'use strict';
 
-  angular.module('app')
+  angular.module('feature2')
     .config(function ($stateProvider, $urlRouterProvider) {
       $stateProvider
-        .state('init', {
-          url: '/',
+        .state('feature2', {
+          url: '/feature2',
           views: {
             'main': {
-              template: '<h2>{{vm.title}}</h2>',
-              controller: 'app',
+              templateUrl: 'app/components/feature2/feature2.tpl.html',
+              controller: 'feature2',
               controllerAs: 'vm'
             }
           }
         });
-
-
-     // send to index page
-    $urlRouterProvider.otherwise("/");
     });
 
 })();

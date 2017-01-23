@@ -1,14 +1,15 @@
 (function() {
   'use strict';
 
-  angular.module('app', [])
+  angular.module('app', ['ui.router','feature1', 'feature2'])
 
   .controller('app', appCtrl);
 
   appCtrl.$inject = ['$scope'];
 
   function appCtrl($scope) {
-      $scope.message = "test";
+    var vm = this;
+    vm.title = "test";
   }
 
 
