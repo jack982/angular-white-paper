@@ -1,7 +1,7 @@
 (function() {
   'use strict';
 
-  angular.module('app', ['ui.router','feature1', 'feature2'])
+  angular.module('app', ['ui.router','feature1'])
 
   .controller('app', appCtrl);
 
