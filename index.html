@@ -21,7 +21,7 @@
 
 <body>
 
-    <div class="container" ng-controller="app">
+    <div class="container">
 
         <div class="row">
             <div class="col-md-12">
@@ -30,16 +30,7 @@
         </div>
         <div class="row">
             <div class="col-md-6 col-md-offset-3">
-                <ul class="nav nav-tabs">
-                    <li role="presentation" class="active"><a ui-sref="init" ui-sref-active="active">Index</a></li>
-                    <li role="presentation" class=""><a ui-sref="feature1" ui-sref-active="active">Feature 1</a></li>
-                    <li role="presentation" class=""><a ui-sref="feature2" ui-sref-active="active">Feature 2</a></li>
-                </ul>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-md-6 col-md-offset-3">
-                <div ui-view="main"></div>
+                <div ui-view="main">main view</div>
             </div>
         </div>
 

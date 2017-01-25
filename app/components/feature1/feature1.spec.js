@@ -37,6 +37,8 @@ describe('Angular White Paper Test Suite', function () {
                 $scope: scope,
                 featuresService: featuresService
             });
+            
+            spyOn(featuresService, 'list').and.callFake(function() { return featuresList }); //callThrough();
         }));
 
         it('should exists', function () {
@@ -48,21 +50,23 @@ describe('Angular White Paper Test Suite', function () {
             expect(featuresController.title).toBe('feature1');
         });
 
-        it('should initialize the features list', function () {
-            //    spyOn(featuresService, 'list').and.callThrough();
-            //  expect(featuresService.list).toHaveBeenCalled();
+        it('should initialize the features list with a call to featuresService.list()', function () {
+        //         spyOn(featuresService, 'list').and.callThrough();
+    //        expect(featuresService.list).toHaveBeenCalled();
             expect(featuresController.features).toBeDefined();
             expect(featuresController.features.length).toBe(3);
             expect(featuresController.features).toEqual(featuresList);
         });
 
-        it('should add a feature to the list', function () {
+        it('should add a feature to the list with a call to featuresService.add()', function () {
+      //      expect(featuresService.list).toHaveBeenCalled();
             expect(featuresController.features).toBeDefined();
             expect(featuresController.features.length).toBe(3);
             spyOn(featuresService, 'add').and.callThrough();
             featuresService.add();
             expect(featuresService.add).toHaveBeenCalled();
             expect(featuresController.features.length).toBe(4);
+            expect(featuresController.features).toEqual(['ui-router', 'bootstrap', 'karma', 'gulp']);
             expect(featuresController.features[3]).toBe('gulp');
         });
     });

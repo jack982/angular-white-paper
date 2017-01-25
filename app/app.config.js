@@ -1,25 +1,12 @@
-(function(){
+(function () {
 
-  'use strict';
+    'use strict';
 
-  angular.module('app')
-    .config(function ($stateProvider, $urlRouterProvider) {
-      $stateProvider
-        .state('init', {
-          url: '/',
-          views: {
-            'main': {
-              template: '<h2>{{vm.title}}</h2>',
-              controller: 'app',
-              controllerAs: 'vm'
-            }
-          }
+    angular.module('app')
+        .config(function ($stateProvider, $urlRouterProvider) {
+
+            // send to feature1 page
+            $urlRouterProvider.otherwise("/feature1");
         });
 
-
-     // send to index page
-    $urlRouterProvider.otherwise("/");
-    });
-
 })();
-
