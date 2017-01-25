@@ -19,6 +19,7 @@ module.exports = function(config) {
         '../bower_components/angular-ui-router/release/angular-ui-router.min.js',
         '../bower_components/angular-mocks/angular-mocks.js',
         '../app/components/feature1/feature1.module.js',
+        '../app/components/feature1/feature1.controller.js',
         '../app/components/feature1/features.service.js',
         '../app/components/feature1/feature1.spec.js',
         '../app/app.module.js'
