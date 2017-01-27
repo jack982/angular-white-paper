@@ -1,6 +1,5 @@
-(function () {
 
-    'use strict';
+angular = require('angular');
 
     angular.module('feature1')
 
@@ -28,4 +27,3 @@
             }
         };
     }
-})();

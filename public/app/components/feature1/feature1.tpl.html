@@ -1,0 +1,12 @@
+<h2>{{vm.title}}</h2>
+
+
+<form ng-submit="vm.addItem()">
+    <label>Add Item</label>
+    <input type="text" name="item" ng-model="vm.item">
+    <button type="submit">Add</button>
+</form>
+
+<ul ng-repeat="feature in vm.features">
+    <li>{{feature}}</li>
+</ul>

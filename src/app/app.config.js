@@ -1,5 +1,5 @@
 (function () {
-
+/*
     'use strict';
 
     angular.module('app')
@@ -8,5 +8,5 @@
             // send to feature1 page
             $urlRouterProvider.otherwise("/feature1");
         });
-
+*/
 })();

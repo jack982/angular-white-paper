@@ -1,6 +1,4 @@
-(function(){
-
-  'use strict';
+ angular = require('angular');
 
   angular.module('feature1')
     .config(function ($stateProvider, $urlRouterProvider) {
@@ -17,5 +15,4 @@
         });
     });
 
-})();
 

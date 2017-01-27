@@ -1,9 +1,11 @@
-(function(){
 
-    require('./feature1.service.js');
-    
+
+
+  angular = require('angular');
+
+
   angular.module('feature1')
-  .controller('feature1', feature1);
+    .controller('feature1', feature1);
 
 
   feature1.$inject = ['$scope', 'featuresService'];
@@ -22,4 +24,6 @@
     }
   }
 
-})();
+
+
+require('./features.service.js');
