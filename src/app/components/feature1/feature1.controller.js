@@ -1,5 +1,7 @@
 (function(){
 
+    require('./feature1.service.js');
+    
   angular.module('feature1')
   .controller('feature1', feature1);
 
