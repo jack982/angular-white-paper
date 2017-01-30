@@ -7,6 +7,6 @@
     <button type="submit">Add</button>
 </form>
 
-<ul ng-repeat="feature in vm.features">
+<ul ng-repeat="feature in vm.features track by $index">
     <li>{{feature}}</li>
 </ul>

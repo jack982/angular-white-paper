@@ -1,16 +1,4 @@
-
-
-
-  angular = require('angular');
-
-
-  angular.module('feature1')
-    .controller('feature1', feature1);
-
-
-  feature1.$inject = ['$scope', 'featuresService'];
-
-  function feature1($scope, featuresService) {
+var feature1 = function ($scope, featuresService) {
     var vm = this;
     vm.title = 'feature1';
 
@@ -18,12 +6,12 @@
 
     vm.item = null;
 
-    vm.addItem = function( ) {
-        featuresService.add( vm.item );
+    vm.addItem = function () {
+        featuresService.add(vm.item);
         vm.item = null;
     }
-  }
+};
 
+// feature1.$inject = ['$scope', 'featuresService'];
 
-
-require('./features.service.js');
+module.exports = feature1;

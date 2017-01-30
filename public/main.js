@@ -37671,38 +37671,43 @@ require('./angular');
 module.exports = angular;
 
 },{"./angular":2}],4:[function(require,module,exports){
+var config = function ($stateProvider, $urlRouterProvider) {
+
+    $stateProvider
+    .state('feature1', {
+        url: '/feature1',
+        views: {
+            'main': {
+                templateUrl: 'app/components/feature1/feature1.tpl.html',
+                controller: 'feature1',
+                controllerAs: 'vm'
+            }
+        }
+    });
+
+    // send to feature1 page
+    $urlRouterProvider.otherwise("/feature1");
+};
+
+module.exports = config;
+},{}],5:[function(require,module,exports){
 angular = require('angular');
 
+
 require('angular-ui-router');
-//require('./app.config.js');
-require('./components/feature1/feature1.module.js');
+
+// add here all applications' dependencies
+require('./components/feature1');
 
 
 angular.module('app', ['ui.router', 'feature1'])
-
-    .config(function ($stateProvider, $urlRouterProvider) {
-
-            // send to feature1 page
-            $urlRouterProvider.otherwise("/feature1");
-        });
+    .config( require('./app.config.js') ); 
 
 
 
 
-},{"./components/feature1/feature1.module.js":6,"angular":3,"angular-ui-router":1}],5:[function(require,module,exports){
-
-
-
-  angular = require('angular');
-
-
-  angular.module('feature1')
-    .controller('feature1', feature1);
-
-
-  feature1.$inject = ['$scope', 'featuresService'];
-
-  function feature1($scope, featuresService) {
+},{"./app.config.js":4,"./components/feature1":8,"angular":3,"angular-ui-router":1}],6:[function(require,module,exports){
+var feature1 = function ($scope, featuresService) {
     var vm = this;
     vm.title = 'feature1';
 
@@ -37710,73 +37715,46 @@ angular.module('app', ['ui.router', 'feature1'])
 
     vm.item = null;
 
-    vm.addItem = function( ) {
-        featuresService.add( vm.item );
+    vm.addItem = function () {
+        featuresService.add(vm.item);
         vm.item = null;
     }
-  }
+};
 
+// feature1.$inject = ['$scope', 'featuresService'];
 
+module.exports = feature1;
+},{}],7:[function(require,module,exports){
+var features = function () {
+    var features = ['ui-router', 'bootstrap', 'karma'];
 
-require('./features.service.js');
-
-},{"./features.service.js":7,"angular":3}],6:[function(require,module,exports){
-  angular = require('angular');
- //   require('./feature1.config.js');
-
-
-  angular.module('feature1', [])
-
-    .config(function ($stateProvider, $urlRouterProvider) {
-      $stateProvider
-        .state('feature1', {
-          url: '/feature1',
-          views: {
-            'main': {
-              templateUrl: 'app/components/feature1/feature1.tpl.html',
-              controller: 'feature1',
-              controllerAs: 'vm'
+    return {
+        'list': function () {
+            return features;
+        },
+        'get': function (index) {
+            var feature = null;
+            if (index <= features.length - 1 && index >= 0) {
+                feature = features[index];
             }
-          }
-        });
-    });
+            return feature;
+        },
+        'add': function (item) {
+            features.push(item);
+        }
+    };
+};
+
+module.exports = features;
+},{}],8:[function(require,module,exports){
+var angular = require('angular');
 
 
+//require('angular-ui-router');
 
-
-
-   require('./feature1.controller.js');
-    //require('./features.service.js');
-
-},{"./feature1.controller.js":5,"angular":3}],7:[function(require,module,exports){
-
-angular = require('angular');
-
-    angular.module('feature1')
-
-    .service('featuresService', service);
-
-
-    service.$inject = [];
-
-    function service() {
-        var features = ['ui-router', 'bootstrap', 'karma'];
-
-        return {
-            'list': function () {
-                return features;
-            },
-            'get': function (index) {
-                var feature = null;
-                if (index <= features.length - 1 && index >= 0) {
-                    feature = features[index];
-                }
-                return feature;
-            },
-            'add': function( item ) {
-                features.push( item );
-            }
-        };
-    }
-
-},{"angular":3}]},{},[4]);
+angular
+     .module('feature1', [])
+  //      .config(require('./feature1.config.js'))
+        .service('featuresService', require('./features.service.js'))
+        .controller('feature1', require('./feature1.controller.js'));
+},{"./feature1.controller.js":6,"./features.service.js":7,"angular":3}]},{},[5]);

@@ -1,17 +1,14 @@
 angular = require('angular');
 
+
 require('angular-ui-router');
-//require('./app.config.js');
-require('./components/feature1/feature1.module.js');
+
+// add here all applications' dependencies
+require('./components/feature1');
 
 
 angular.module('app', ['ui.router', 'feature1'])
-
-    .config(function ($stateProvider, $urlRouterProvider) {
-
-            // send to feature1 page
-            $urlRouterProvider.otherwise("/feature1");
-        });
+    .config( require('./app.config.js') ); 
 
 
 

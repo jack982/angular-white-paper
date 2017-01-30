@@ -2,6 +2,14 @@ var gulp = require('gulp');
 var browserify = require('browserify');
 var source = require('vinyl-source-stream');
 var browserSync = require('browser-sync').create();
+var Server = require('karma').Server;
+var glob = require('glob');
+
+
+var paths = {
+    test: 'test/',
+    src: 'src/'
+};
 
 gulp.task('browserify', function() {
   return browserify('./src/app/app.module.js')
@@ -11,7 +19,29 @@ gulp.task('browserify', function() {
 });
 
 
-gulp.task('browser-sync', ['copy'], function () {
+gulp.task('browserify-tests', function () {
+  var bundler = browserify({debug: true});
+  glob
+  .sync(paths.src + '**/*.spec.js')
+  .forEach(function (file) {
+    bundler.add(file);
+  });
+  return bundler
+  .bundle()
+  .pipe(source('browserified_tests.js'))
+  .pipe(gulp.dest(paths.test + 'browserified'));
+});
+
+gulp.task('karma', ['browserify-tests'], function (done) {
+    new Server({
+        configFile: __dirname + '/karma.conf.js',
+        singleRun: true
+    }, done).start();
+});
+
+
+
+gulp.task('serve', ['copy'], function () {
   browserSync.init({
     server: {
       baseDir: "./public",

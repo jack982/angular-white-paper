@@ -15,37 +15,57 @@ module.exports = function(config) {
 
     // list of files / patterns to load in the browser
     files: [
+        /*
         '../bower_components/angular/angular.js',
         '../bower_components/angular-ui-router/release/angular-ui-router.min.js',
         '../bower_components/angular-mocks/angular-mocks.js',
-        '../app/components/feature1/feature1.module.js',
-        '../app/components/feature1/feature1.controller.js',
-        '../app/components/feature1/features.service.js',
-        '../app/components/feature1/feature1.spec.js',
-        '../app/app.module.js'
+        '../src/app/components/feature1/feature1.module.js',
+        '../src/app/components/feature1/feature1.controller.js',
+        '../src/app/components/feature1/features.service.js',
+        '../src/app/components/feature1/feature1.spec.js',
+        '../src/app/app.module.js'
+    */
+               
+
+        //'../node_modules/angular/angular.js',
+        //'../node_modules/angular-ui-router/release/angular-ui-router.min.js',
+         '../public/main.js',
+        '../node_modules/angular-mocks/angular-mocks.js',
+        
+        'browserified/browserified_tests.js'
    //     '../app/**/*.js',
    //     'unit/*.js',
   //      '../**/*.tpl.html'
     ],
 
+    
 
     // list of files to exclude
     exclude: [
     ],
 
 
+      
+        browserify: {
+            watch: true,
+            debug: true
+        },
+        
+      
     // preprocess matching files before serving them to the browser
     // available preprocessors: https://npmjs.org/browse/keyword/karma-preprocessor
     preprocessors: {
-        '../**/*.tpl.html': 'ng-html2js' //,
+     //    'test/*': ['browserify']
+//        '../**/*.tpl.html': 'ng-html2js' //,
   //      '../app/**/*.js': 'coverage'
     },
 
+    
     ngHtml2JsPreprocessor: {
         // setting this option will create only a single module that contains templates
         // from all the files, so you can load them all with module('foo')
-        stripPrefix: '.*/app/',
-        moduleName: 'test-templates'
+//        stripPrefix: '.*/app/',
+//        moduleName: 'test-templates'
     },
 
 

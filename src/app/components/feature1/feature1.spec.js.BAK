@@ -1,14 +1,21 @@
+require('angular');
+require('angular-mocks');
+
+var featuresController = require('./feature1.controller.js'); 
+
 describe('Angular White Paper Test Suite', function () {
 
-    beforeEach(angular.mock.module('feature1')); // include app module in our tests
+//    beforeEach(angular.mock.module('feature1')); // include app module in our tests
+//beforeEach(require('./feature1.module.js'));
 
     describe('Testing feature1 controller', function () {
-        var featuresController, featuresService, scope, $controller, featuresList;
+        var /*featuresController,*/ featuresService, scope, $controller, featuresList;
 
-        beforeEach(angular.mock.module('ui.router'));
-     
-        beforeEach(angular.mock.module('feature1'));
- 
+      //  beforeEach(angular.mock.module('ui.router'));
+      //  beforeEach(require('angular-ui-router'));
+    //    beforeEach(angular.mock.module('feature1'));
+        //beforeEach(require('./feature1.module.js'));
+        
         
 
         // mock dependency (before inject)
@@ -35,11 +42,14 @@ describe('Angular White Paper Test Suite', function () {
             $controller = _$controller_;
             $scope = _$rootScope_.$new();
             featuresService = _featuresService_;
-            featuresController = $controller('feature1', {
+        /*    featuresController = $controller('feature1', {
                 $scope: scope,
                 featuresService: featuresService
             });
-           
+        */
+            
+            featuresController( scope, featuresService );
+            
             spyOn(featuresService, 'list').and.callFake(function() { return featuresList }); //callThrough();
         }));
 
