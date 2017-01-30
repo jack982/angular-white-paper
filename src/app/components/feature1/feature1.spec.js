@@ -9,7 +9,6 @@ describe('Angular White Paper Test Suite', function () {
      
         beforeEach(angular.mock.module('feature1'));
  
-        
 
         // mock dependency (before inject)
         beforeEach(function () {
