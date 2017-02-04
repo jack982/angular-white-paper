@@ -4,12 +4,30 @@ var source = require('vinyl-source-stream');
 var browserSync = require('browser-sync').create();
 var Server = require('karma').Server;
 var glob = require('glob');
+var fs = require('fs');
+var flatten = require('gulp-flatten');
+var ngConfig = require('gulp-ng-config');
+var config = require('./config/config.js');
 
+var ENV = process.env.APP_ENV || 'development';
+
+console.log('--> ENVIRONMENT: ' + ENV);
+
+if ( ENV === 'development' ) {
+    require('dotenv').load();
+}
 
 var paths = {
     test: 'test/',
     src: 'src/'
 };
+
+gulp.task('ng-config', function() {
+   fs.writeFileSync('./config/config.json', JSON.stringify(config[ENV])); 
+    gulp.src('./config/config.json')
+        .pipe( ngConfig('angularWhitePaper.config', { createModule: false }))
+        .pipe( gulp.dest('./public/'));
+});
 
 gulp.task('browserify', function() {
   return browserify('./src/app/app.module.js')
@@ -56,7 +74,7 @@ gulp.task('serve', ['copy'], function () {
   });
 });
 
-gulp.task('copy', ['browserify', 'assets'], function() {
+gulp.task('copy', ['browserify', 'assets', 'i18n'], function() {
     gulp.src(['./src/**/*.html'])
         .pipe(gulp.dest('./public'))
 		.pipe(browserSync.stream())
@@ -67,4 +85,11 @@ gulp.task('assets', function() {
     gulp.src(['./src/assets/**/*'])
         .pipe(gulp.dest('./public/assets/'))
 		.pipe(browserSync.stream())
+});
+
+gulp.task('i18n', function() {
+    gulp.src(['./src/app/**/*-i18n.json'])
+        .pipe(flatten())
+        .pipe(gulp.dest('./public/i18n/'))
+        .pipe(browserSync.stream())
 });
