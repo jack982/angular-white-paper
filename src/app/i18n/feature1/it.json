@@ -1,0 +1,12 @@
+{
+    "feature1": {
+        "title": "Funzionalità 1",
+        "form": {
+            "item": {
+                "label": "Aggiungi elemento"
+            },
+            "btnAdd" : "Aggiungi"
+        }
+    }
+
+}

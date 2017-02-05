@@ -1,10 +1,15 @@
-function feature1($scope, featuresService, $translate) {
+function feature1($scope, featuresService, helloService, $translate, $translatePartialLoader) {
+    $translatePartialLoader.addPart('feature1');
+    $translate.refresh();
+    
     var vm = this;
     vm.title = 'feature1';
 
     vm.features = featuresService.list();
 
     vm.item = null;
+    
+    vm.greeting = helloService.hello();
 
     vm.addItem = function () {
         featuresService.add(vm.item);

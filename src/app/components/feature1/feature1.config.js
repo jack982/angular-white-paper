@@ -1,4 +1,4 @@
-var config = function ($stateProvider, $urlRouterProvider) {
+var config = function ($stateProvider, $urlRouterProvider, $translatePartialLoaderProvider) {
 $stateProvider
     .state('feature1', {
         url: '/feature1',
@@ -9,6 +9,14 @@ $stateProvider
                 controllerAs: 'vm'
             }
         }
+       /*,
+        resolve: {
+            part: function() {
+                $translatePartialLoaderProvider.addPart('feature1');
+                return;
+            }
+        }
+        */
     });
 };
 

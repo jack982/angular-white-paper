@@ -1,10 +1,9 @@
-var config = function ($stateProvider, $urlRouterProvider, $translateProvider) {
+var config = function ($stateProvider, $urlRouterProvider, $translateProvider, $translatePartialLoaderProvider) {
     // send to feature1 page
     $urlRouterProvider.otherwise("/feature1");
     
     // translate
-    //$translateProvider.translations('en', { HEADLINE: 'Hello there, This is my awesome app!' })
-    //    .translations('de', { HEADLINE: 'Hey, das ist meine großartige App!' });
+    /*
     $translateProvider.useStaticFilesLoader({
         files: [
             {
@@ -12,6 +11,11 @@ var config = function ($stateProvider, $urlRouterProvider, $translateProvider) {
                  suffix: '-i18n.json'
             }
         ]
+    });
+    */
+    $translatePartialLoaderProvider.addPart('feature1');
+    $translateProvider.useLoader('$translatePartialLoader', {
+        urlTemplate: './i18n/{part}/{lang}.json'
     });
     $translateProvider.preferredLanguage('en');
     $translateProvider.useLocalStorage();

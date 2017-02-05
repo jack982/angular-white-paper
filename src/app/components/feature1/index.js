@@ -4,7 +4,7 @@ var angular = require('angular');
 
 
 angular
-     .module('feature1', ['ui.router', 'pascalprecht.translate', 'ngCookies'])
+     .module('feature1', ['ui.router', 'pascalprecht.translate', 'ngCookies', 'shared'])
         .config(require('./feature1.config.js'))
         .service('featuresService', require('./features.service.js'))
         .controller('feature1', require('./feature1.controller.js'));

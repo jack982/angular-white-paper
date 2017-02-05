@@ -88,8 +88,14 @@ gulp.task('assets', function() {
 });
 
 gulp.task('i18n', function() {
-    gulp.src(['./src/app/**/*-i18n.json'])
-        .pipe(flatten())
+    
+    //gulp.src(['./src/app/**/*-i18n.json'])
+    //    .pipe(flatten())
+    //    .pipe(gulp.dest('./public/i18n/'))
+    //    .pipe(browserSync.stream())
+    //
+    gulp.src(['./src/app/i18n/**/*.json'])
+    //    .pipe(flatten())
         .pipe(gulp.dest('./public/i18n/'))
         .pipe(browserSync.stream())
 });
