@@ -1,6 +1,6 @@
 {
-    "feature1": {
-        "title": "Feature1",
+    "showcase": {
+        "title": "Showcase",
         "form": {
             "item": {
                 "label": "Add Item"

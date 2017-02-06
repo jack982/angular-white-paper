@@ -1,19 +1,35 @@
 describe('Angular White Paper Test Suite', function () {
 
-    beforeEach(angular.mock.module('feature1')); // include app module in our tests
+    beforeEach(angular.mock.module('app.showcase')); // include app module in our tests
 
-    describe('Testing feature1 controller', function () {
+    describe('Testing showcase controller', function () {
         var featuresController, featuresService, scope, $controller, featuresList;
 
         beforeEach(angular.mock.module('ui.router'));
-     
-        beforeEach(angular.mock.module('feature1'));
- 
+
+        beforeEach(angular.mock.module('app.showcase'));
+
 
         // mock dependency (before inject)
         beforeEach(function () {
 
-            featuresList = ['ui-router', 'bootstrap', 'karma'];
+            featuresList =  [
+                {
+                  name: 'ui-router',
+                  version: '1.0',
+                  url: null
+                },
+                {
+                  name: 'bootstrap',
+                  version: '1.0',
+                  url: null
+                },
+                {
+                  name: 'karma',
+                  version: '1.0',
+                  url: null
+                }
+            ];
 
             angular.mock.module(function ($provide) {
                 var mockedFeatureService = {
@@ -21,7 +37,7 @@ describe('Angular White Paper Test Suite', function () {
                         return featuresList;
                     },
                     add: function () {
-                        featuresList.push('gulp');
+                        featuresList.push( { name: 'gulp', version: null, url: null} );
                     }
                 }
 
@@ -34,11 +50,11 @@ describe('Angular White Paper Test Suite', function () {
             $controller = _$controller_;
             $scope = _$rootScope_.$new();
             featuresService = _featuresService_;
-            featuresController = $controller('feature1', {
+            featuresController = $controller('showcase', {
                 $scope: scope,
                 featuresService: featuresService
             });
-           
+
             spyOn(featuresService, 'list').and.callFake(function() { return featuresList }); //callThrough();
         }));
 
@@ -48,7 +64,7 @@ describe('Angular White Paper Test Suite', function () {
 
         it('should set title', function () {
             expect(featuresController.title).toBeDefined();
-            expect(featuresController.title).toBe('feature1');
+            expect(featuresController.title).toBe('showcase');
         });
 
         it('should initialize the features list with a call to featuresService.list()', function () {
@@ -67,22 +83,43 @@ describe('Angular White Paper Test Suite', function () {
             featuresService.add();
             expect(featuresService.add).toHaveBeenCalled();
             expect(featuresController.features.length).toBe(4);
-            expect(featuresController.features).toEqual(['ui-router', 'bootstrap', 'karma', 'gulp']);
-            expect(featuresController.features[3]).toBe('gulp');
+            expect(featuresController.features).toEqual( featuresList );
+            expect(featuresController.features[3].name).toBe('gulp');
         });
     });
 
     describe('Testing featuresService', function () {
 
         var featuresService; //  scope, ctrl, httpBackend, timeout,
+        var featuresList;
+
 
         beforeEach(
+
+            featuresList =  [
+                {
+                  name: 'ui-router',
+                  version: '1.0',
+                  url: null
+                },
+                {
+                  name: 'bootstrap',
+                  version: '1.0',
+                  url: null
+                },
+                {
+                  name: 'karma',
+                  version: '1.0',
+                  url: null
+                }
+            ];
+
             inject(function (_featuresService_) { /*$controller, $rootScope, $httpBackend, $timeout ) {  */
 
                 featuresService = _featuresService_;
 
                 //scope = $rootScope.$new();
-                //ctrl = $controller('feature1',  {$scope: scope});
+                //ctrl = $controller('showcase',  {$scope: scope});
                 //httpBackend = $httpBackend;
                 //timeout = $timeout;
             })
@@ -106,11 +143,10 @@ describe('Angular White Paper Test Suite', function () {
             });
 
             it('should return a list of hard-coded features', function () {
-                var features = ['ui-router', 'bootstrap', 'karma'];
 
                 expect(featuresService.list()).toBeDefined();
                 expect(featuresService.list() instanceof Array).toBe(true);
-                expect(featuresService.list()).toEqual(features);
+                expect(featuresService.list()).toEqual( featuresList );
             });
 
         });
@@ -122,9 +158,9 @@ describe('Angular White Paper Test Suite', function () {
 
             it('should return the first element of the list', function () {
                 expect(featuresService.get(0)).toBeDefined();
-                expect(featuresService.get(0)).toBe('ui-router');
+                expect(featuresService.get(0).name).toBe('ui-router');
             });
-            
+
             it('should return nothing if called with an invalid index', function () {
                 var index = featuresService.list().length + 1;
                 expect(featuresService.get(index)).toBe(null);

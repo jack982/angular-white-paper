@@ -3,7 +3,7 @@ bower_components
 test/coverage
 test/browserified
 public
-config/
+src/app/app.constants.js
 .env
 .txt
 .log

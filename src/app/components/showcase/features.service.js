@@ -1,5 +1,21 @@
 var features = function () {
-    var features = ['ui-router', 'bootstrap', 'karma'];
+    var features = [
+        {
+          name: 'ui-router',
+          version: '1.0',
+          url: null
+        },
+        {
+          name: 'bootstrap',
+          version: '1.0',
+          url: null
+        },
+      {
+          name: 'karma',
+          version: '1.0',
+          url: null
+        }
+    ];
 
     return {
         'list': function () {

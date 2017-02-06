@@ -1,6 +1,6 @@
 {
-    "feature1": {
-        "title": "Funzionalità 1",
+    "showcase": {
+        "title": "Vetrina",
         "form": {
             "item": {
                 "label": "Aggiungi elemento"

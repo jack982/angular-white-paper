@@ -9,15 +9,20 @@ require('angular-translate-loader-partial');
 require('angular-translate-storage-local');
 require('angular-translate-storage-cookie');
 
-// add here all custom applications' dependencies
+
+// add shared and commons dependencies
+require('./app.constants.js');
 require('./shared');
-require('./components/feature1');
+
+// add here all custom applications' dependencies
+require('./components/showcase');
 
 angular.module('angularWhitePaper', ['ui.router',
                                         'pascalprecht.translate',
                                         'ngCookies',
-                                        'shared',
-                                        'feature1'])
+                                        'app.constants',
+                                        'app.shared',
+                                        'app.showcase'])
     .config( require('./app.config.js') )
     .run( require('./app.run.js') );
 

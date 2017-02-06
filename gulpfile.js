@@ -1,3 +1,4 @@
+var package = require('./package.json');
 var gulp = require('gulp');
 var browserify = require('browserify');
 var source = require('vinyl-source-stream');
@@ -8,14 +9,16 @@ var fs = require('fs');
 var flatten = require('gulp-flatten');
 var ngConfig = require('gulp-ng-config');
 var config = require('./config/config.js');
+var dotenv = require('dotenv');
 
+dotenv.load();
 var ENV = process.env.APP_ENV || 'development';
-
 console.log('--> ENVIRONMENT: ' + ENV);
-
+/*
 if ( ENV === 'development' ) {
     require('dotenv').load();
 }
+*/
 
 var paths = {
     test: 'test/',
@@ -23,10 +26,10 @@ var paths = {
 };
 
 gulp.task('ng-config', function() {
-   fs.writeFileSync('./config/config.json', JSON.stringify(config[ENV])); 
-    gulp.src('./config/config.json')
-        .pipe( ngConfig('angularWhitePaper.config', { createModule: false }))
-        .pipe( gulp.dest('./public/'));
+   fs.writeFileSync('./config/app.constants.json', JSON.stringify(config[ENV]));
+    gulp.src('./config/app.constants.json')
+        .pipe( ngConfig('app.constants', { createModule: true }))
+        .pipe( gulp.dest('./src/app/'));
 });
 
 gulp.task('browserify', function() {
@@ -74,7 +77,7 @@ gulp.task('serve', ['copy'], function () {
   });
 });
 
-gulp.task('copy', ['browserify', 'assets', 'i18n'], function() {
+gulp.task('copy', ['browserify', 'ng-config', 'assets', 'i18n'], function() {
     gulp.src(['./src/**/*.html'])
         .pipe(gulp.dest('./public'))
 		.pipe(browserSync.stream())
@@ -88,7 +91,7 @@ gulp.task('assets', function() {
 });
 
 gulp.task('i18n', function() {
-    
+
     //gulp.src(['./src/app/**/*-i18n.json'])
     //    .pipe(flatten())
     //    .pipe(gulp.dest('./public/i18n/'))

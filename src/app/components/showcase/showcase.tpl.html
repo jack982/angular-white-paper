@@ -1,0 +1,18 @@
+<h2 translate="showcase.title">{{vm.title}}</h2>
+
+<p>{{vm.greeting}}</p>
+<p>aValue: {{ vm.aValue }}</p>
+
+<form ng-submit="vm.addItem()">
+    <label translate="showcase.form.item.label">Add Item</label>
+    <input type="text" name="item" ng-model="vm.item">
+    <button name="btnAdd" type="submit" translate="showcase.form.btnAdd">Add</button>
+</form>
+
+<ul ng-repeat="feature in vm.features track by $index">
+    <li>{{feature.name}} - {{ feature.version }} <span ng-show="feature.url">{{feature.url}}</span></li>
+</ul>
+
+<button type="button" ng-click="vm.changeLanguage('en')">English</button>
+<button type="button" ng-click="vm.changeLanguage('it')">Italian</button>
+
