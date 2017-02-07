@@ -1,4 +1,4 @@
-function showcase($scope, featuresService, helloService, $translate) {
+function showcase($scope, featuresService, helloService,  $translate) {
     var vm = this;
     vm.title = 'showcase';
 

@@ -2,6 +2,7 @@ var package = require('./package.json');
 var gulp = require('gulp');
 var browserify = require('browserify');
 var source = require('vinyl-source-stream');
+var b2v = require('buffer-to-vinyl');
 var browserSync = require('browser-sync').create();
 var Server = require('karma').Server;
 var glob = require('glob');
@@ -13,23 +14,37 @@ var dotenv = require('dotenv');
 
 dotenv.load();
 var ENV = process.env.APP_ENV || 'development';
-console.log('--> ENVIRONMENT: ' + ENV);
-/*
-if ( ENV === 'development' ) {
-    require('dotenv').load();
-}
-*/
+console.log('--> ENVIRONMENT: ' + ENV );
+
+//if ( ENV === 'development' ) {
+//    require('dotenv').load();
+//}
+
 
 var paths = {
     test: 'test/',
     src: 'src/'
 };
 
+gulp.task('make-config', function() {
+  var json = JSON.stringify(config[ENV]);
+ 
+  return b2v.stream(new Buffer(json), 'app.constants.js')
+    .pipe(ngConfig('app.constants'))
+    .pipe(gulp.dest('./src/app'));
+});
+
+var makeJSON = function(env, path) {
+    fs.writeFileSync( path, JSON.stringify( env ) );  
+};
+
 gulp.task('ng-config', function() {
-   fs.writeFileSync('./config/app.constants.json', JSON.stringify(config[ENV]));
-    gulp.src('./config/app.constants.json')
-        .pipe( ngConfig('app.constants', { createModule: true }))
+    var tmp = './config/app.constants.json';
+   makeJSON( config[ENV], tmp );
+    gulp.src( tmp )
+        .pipe( ngConfig('app.constants', { constants: config[ENV], createModule: true }))
         .pipe( gulp.dest('./src/app/'));
+   // fs.unlinkSync( tmp );
 });
 
 gulp.task('browserify', function() {

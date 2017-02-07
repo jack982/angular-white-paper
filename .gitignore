@@ -4,6 +4,8 @@ test/coverage
 test/browserified
 public
 src/app/app.constants.js
+config/*
+!config/config.js
 .env
 .txt
 .log
