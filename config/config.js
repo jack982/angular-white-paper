@@ -9,10 +9,10 @@ var shared = {
 
 var environments = {
     development : {
-        ENV_VARS : shared
+        ENV_VARS : Object.assign({}, shared)
     },
     production : {
-        ENV_VARS :  shared
+        ENV_VARS : Object.assign({}, shared)
     }
 }
 

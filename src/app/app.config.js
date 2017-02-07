@@ -1,6 +1,6 @@
 var config = function ($stateProvider, $urlRouterProvider, $translateProvider, $translatePartialLoaderProvider) {
     // send to 'showcase' page
-    $urlRouterProvider.otherwise("/showcase");
+    $urlRouterProvider.otherwise('/showcase');
 
     // translate
     /*

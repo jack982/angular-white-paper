@@ -39,7 +39,7 @@ describe('Angular White Paper Test Suite', function () {
                     add: function () {
                         featuresList.push( { name: 'gulp', version: null, url: null} );
                     }
-                }
+                };
 
                 $provide.value('featuresService', mockedFeatureService);
             });
@@ -55,7 +55,7 @@ describe('Angular White Paper Test Suite', function () {
                 featuresService: featuresService
             });
 
-            spyOn(featuresService, 'list').and.callFake(function() { return featuresList }); //callThrough();
+            spyOn(featuresService, 'list').and.callFake(function() { return featuresList; }); //callThrough();
         }));
 
         it('should exists', function () {
@@ -93,10 +93,9 @@ describe('Angular White Paper Test Suite', function () {
         var featuresService; //  scope, ctrl, httpBackend, timeout,
         var featuresList;
 
-
-        beforeEach(
-
-            featuresList =  [
+        beforeEach(function() {
+           
+            featuresList = [
                 {
                   name: 'ui-router',
                   version: '1.0',
@@ -113,6 +112,10 @@ describe('Angular White Paper Test Suite', function () {
                   url: null
                 }
             ];
+        });
+        
+
+        beforeEach(
 
             inject(function (_featuresService_) { /*$controller, $rootScope, $httpBackend, $timeout ) {  */
 

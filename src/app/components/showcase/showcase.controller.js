@@ -16,7 +16,7 @@ function showcase($scope, featuresService, helloService,  $translate) {
     vm.changeLanguage = function(langKey) {
         $translate.use(langKey);
     };
-};
+}
 
 // showcase.$inject = ['$scope', 'featuresService'];
 

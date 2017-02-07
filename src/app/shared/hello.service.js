@@ -2,7 +2,7 @@ var service = function () {
 
     return {
         'hello': function () {
-            return "Hello World";
+            return 'Hello World';
         }
     };
 };
