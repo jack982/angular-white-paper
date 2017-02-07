@@ -1,4 +1,5 @@
-var config = function ($stateProvider, $urlRouterProvider) {
+var config = function ($stateProvider) {
+    'use strict';
     $stateProvider
         .state('showcase', {
             url: '/showcase',

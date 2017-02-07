@@ -1,4 +1,6 @@
 function showcase($scope, featuresService, helloService,  $translate) {
+    'use strict';
+    
     var vm = this;
     vm.title = 'showcase';
 

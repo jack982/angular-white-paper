@@ -14,6 +14,8 @@ var Server = require('karma').Server;
 var glob = require('glob');
 var fs = require('fs');
 var flatten = require('gulp-flatten');
+var concat = require('gulp-concat');
+var uglify = require('gulp-uglify');
 var ngConfig = require('gulp-ng-config');
 var config = require('./config/config.js');
 
@@ -70,8 +72,20 @@ gulp.task('karma', ['browserify-tests'], function (done) {
 });
 
 
+gulp.task('sass', function() {
+  gulp.src('./src/app/assets/css/*.scss')
+  // The onerror handler prevents Gulp from crashing when you make a mistake in your SASS
+  .pipe(sass({onError: function(e) { console.log(e); } }))
+  // Optionally add autoprefixer
+  .pipe(autoprefixer("last 2 versions", "> 1%", "ie 8"))
+  // These last two should look familiar now :)
+  .pipe(gulp.dest('./src/app/assets/css/'));
+  //.pipe(refresh(lrserver));
+});
 
-gulp.task('serve', ['copy'], function () {
+
+
+gulp.task('serve', ['build'], function () {
   browserSync.init({
     server: {
       baseDir: "./public",
@@ -86,18 +100,19 @@ gulp.task('serve', ['copy'], function () {
   });
 });
 
-gulp.task('copy', ['browserify', 'ng-config', 'assets', 'i18n'], function() {
-    gulp.src(['./src/**/*.html'])
+gulp.task('copy', ['browserify', 'sass'], function() { //'ng-config', 'assets', 'i18n'], function() {
+    gulp.src(['./src/**/*.html', './src/**/*.css'])
         .pipe(gulp.dest('./public'))
 		.pipe(browserSync.stream())
 });
 
 
-gulp.task('assets', function() {
-    gulp.src(['./src/assets/**/*'])
-        .pipe(gulp.dest('./public/assets/'))
-		.pipe(browserSync.stream())
-});
+//gulp.task('assets', function() {
+//    gulp.src(['./src/assets/**/*'])
+//        .pipe(gulp.dest('./public/assets/'))
+//		.pipe(browserSync.stream())
+//});
+
 
 gulp.task('i18n', function() {
 
@@ -110,4 +125,17 @@ gulp.task('i18n', function() {
     //    .pipe(flatten())
         .pipe(gulp.dest('./public/i18n/'))
         .pipe(browserSync.stream())
+});
+
+gulp.task('scripts', function() {
+   gulp.src('./src/assets/js/*.js')
+    .pipe(concat('vendor.min.js'))
+    .pipe(gulp.dest('./public/assets/js'));
+});
+
+gulp.task('build', [ 'ng-config', 'lint', 'sass', 'copy', 'scripts' ]);
+
+gulp.task('default', ['serve'], function(){
+    gulp.watch("./src/**/*.*", ["build"]);
+    gulp.watch("./public/**/*.*").on('change', browserSync.reload);
 });

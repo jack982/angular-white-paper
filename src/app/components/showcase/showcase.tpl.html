@@ -1,15 +1,14 @@
 <h2 translate="showcase.title">{{vm.title}}</h2>
 
-<p>{{vm.greeting}}</p>
 
-<form ng-submit="vm.addItem()">
+<!--form ng-submit="vm.addItem()">
     <label translate="showcase.form.item.label">Add Item</label>
     <input type="text" name="item" ng-model="vm.item">
     <button name="btnAdd" type="submit" translate="showcase.form.btnAdd">Add</button>
-</form>
+</form-->
 
 <ul ng-repeat="feature in vm.features track by $index">
-    <li>{{feature.name}} - {{ feature.version }} <span ng-show="feature.url">{{feature.url}}</span></li>
+    <li><img class="img-circle" src="{{feature.url}}" alt="{{feature.name}}"> {{feature.name}} <small>{{ feature.version }}</small></li>
 </ul>
 
 <button type="button" ng-click="vm.changeLanguage('en')">English</button>

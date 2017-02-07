@@ -1,19 +1,21 @@
 var features = function () {
+    'use strict';
+    
     var features = [
         {
           name: 'ui-router',
           version: '1.0',
-          url: null
+          url: 'http://placehold.it/150x150'
         },
         {
           name: 'bootstrap',
           version: '1.0',
-          url: null
+          url:  'http://placehold.it/150x150'
         },
       {
           name: 'karma',
           version: '1.0',
-          url: null
+          url:  'http://placehold.it/150x150'
         }
     ];
 
