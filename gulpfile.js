@@ -97,6 +97,7 @@ gulp.task('serve', ['build'], function () {
         "/node_modules": "node_modules"
       }
     },
+    port: 8080,
     browser: "chrome"
   });
 });
