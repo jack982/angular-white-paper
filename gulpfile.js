@@ -16,11 +16,12 @@ var fs = require('fs');
 var flatten = require('gulp-flatten');
 var concat = require('gulp-concat');
 var uglify = require('gulp-uglify');
+var jshint = require('gulp-jshint');
+var autoprefixer = require('gulp-autoprefixer');
 var sass = require('gulp-sass');
 var ngConfig = require('gulp-ng-config');
 var config = require('./config/config.js');
 
-var jshint = require('gulp-jshint');
 
 console.log('-->CURRENT ENVIRONMENT: ' + ENV );
 
@@ -81,7 +82,6 @@ gulp.task('sass', function() {
   //.pipe(autoprefixer("last 2 versions", "> 1%", "ie 8"))
   // These last two should look familiar now :)
   .pipe(gulp.dest('./src/app/assets/css/'));
-  //.pipe(refresh(lrserver));
 });
 
 
@@ -108,22 +108,8 @@ gulp.task('copy', ['browserify', 'sass'], function() { //'ng-config', 'assets', 
 });
 
 
-//gulp.task('assets', function() {
-//    gulp.src(['./src/assets/**/*'])
-//        .pipe(gulp.dest('./public/assets/'))
-//		.pipe(browserSync.stream())
-//});
-
-
 gulp.task('i18n', function() {
-
-    //gulp.src(['./src/app/**/*-i18n.json'])
-    //    .pipe(flatten())
-    //    .pipe(gulp.dest('./public/i18n/'))
-    //    .pipe(browserSync.stream())
-    //
     gulp.src(['./src/app/i18n/**/*.json'])
-    //    .pipe(flatten())
         .pipe(gulp.dest('./public/i18n/'))
         .pipe(browserSync.stream())
 });
