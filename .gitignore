@@ -6,6 +6,7 @@ public
 src/app/app.constants.js
 config/*
 !config/config.js
+db.json
 .env
 .txt
 .log

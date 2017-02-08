@@ -17,17 +17,17 @@ describe('Angular White Paper Test Suite', function () {
                 {
                   name: 'ui-router',
                   version: '1.0',
-                  url: null
+                  url: 'http://placehold.it/150x150'
                 },
                 {
                   name: 'bootstrap',
                   version: '1.0',
-                  url: null
+                  url: 'http://placehold.it/150x150'
                 },
                 {
                   name: 'karma',
                   version: '1.0',
-                  url: null
+                  url: 'http://placehold.it/150x150'
                 }
             ];
 
@@ -99,17 +99,17 @@ describe('Angular White Paper Test Suite', function () {
                 {
                   name: 'ui-router',
                   version: '1.0',
-                  url: null
+                  url: 'http://placehold.it/150x150'
                 },
                 {
                   name: 'bootstrap',
                   version: '1.0',
-                  url: null
+                  url: 'http://placehold.it/150x150'
                 },
                 {
                   name: 'karma',
                   version: '1.0',
-                  url: null
+                  url: 'http://placehold.it/150x150'
                 }
             ];
         });

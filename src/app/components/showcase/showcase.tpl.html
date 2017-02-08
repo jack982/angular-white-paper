@@ -1,4 +1,4 @@
-<h2 translate="showcase.title">{{vm.title}}</h2>
+<h2 class="text-center" translate="showcase.title">{{vm.title}}</h2>
 
 
 <!--form ng-submit="vm.addItem()">
@@ -9,8 +9,7 @@
 
 <ul ng-repeat="feature in vm.features track by $index">
     <li><img class="img-circle" src="{{feature.url}}" alt="{{feature.name}}"> {{feature.name}} <small>{{ feature.version }}</small></li>
-</ul>
+</ul> 
 
 <button type="button" ng-click="vm.changeLanguage('en')">English</button>
 <button type="button" ng-click="vm.changeLanguage('it')">Italian</button>
-

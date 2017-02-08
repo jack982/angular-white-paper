@@ -15,10 +15,11 @@ var glob = require('glob');
 var fs = require('fs');
 var flatten = require('gulp-flatten');
 var concat = require('gulp-concat');
-var uglify = require('gulp-uglify');
+var minify = require('gulp-minify');
 var jshint = require('gulp-jshint');
 var autoprefixer = require('gulp-autoprefixer');
 var sass = require('gulp-sass');
+var ngAnnotate = require('gulp-ng-annotate');
 var ngConfig = require('gulp-ng-config');
 var config = require('./config/config.js');
 
@@ -48,8 +49,12 @@ gulp.task('lint', function() {
 gulp.task('browserify', function() {
   return browserify('./src/app/app.module.js')
           .bundle()
-          .pipe( source('main.js'))
-          .pipe( gulp.dest('./public/'));
+          .pipe( source('main.js') )
+          .pipe( ngAnnotate() )
+        //  .pipe( minify( {
+        //        ignoreFiles: '*.spec.js'
+        //   }))
+          .pipe( gulp.dest('./public/') );
 });
 
 
@@ -68,9 +73,11 @@ gulp.task('browserify-tests', function () {
 
 gulp.task('karma', ['browserify-tests'], function (done) {
     new Server({
-        configFile: __dirname + '/karma.conf.js',
+        configFile: __dirname + '/test/karma.conf.js',
         singleRun: true
-    }, done).start();
+    }, function() {
+        done()
+    }).start();
 });
 
 
@@ -93,11 +100,17 @@ gulp.task('serve', ['build'], function () {
       // The key is the url to match
       // The value is which folder to serve (relative to your current working directory)
       routes: {
-        "/bower_components": "bower_components",
+        //"/bower_components": "bower_components",
         "/node_modules": "node_modules"
       }
     },
     port: 8080,
+    ui: {
+        port: 8081,
+        weinre: {
+            port: 9090
+        }
+    },
     browser: "chrome"
   });
 });
@@ -121,9 +134,16 @@ gulp.task('scripts', function() {
     .pipe(gulp.dest('./public/assets/js'));
 });
 
-gulp.task('build', [ /*'lint',*/ 'ng-config', 'sass', 'copy', 'i18n', 'scripts' ]);
+gulp.task('build', [ /*'lint',*/ 'ng-config', 'sass', 'copy', 'i18n', 'scripts', 'test' ]);
+
+gulp.task('test', ['karma']);
+
+gulp.task('watch', ['build'], function (done) {
+    browserSync.reload();
+    done();
+});
 
 gulp.task('default', ['serve'], function(){
-    gulp.watch("./src/**/*.*", ["build"]);
-    gulp.watch("./public/**/*.*").on('change', browserSync.reload);
+    gulp.watch("./src/**/*.*", ['watch']);
+    //gulp.watch("./public/**/*.*").on('change', browserSync.reload);
 });
