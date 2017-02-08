@@ -16,6 +16,7 @@ var fs = require('fs');
 var flatten = require('gulp-flatten');
 var concat = require('gulp-concat');
 var uglify = require('gulp-uglify');
+var sass = require('gulp-sass');
 var ngConfig = require('gulp-ng-config');
 var config = require('./config/config.js');
 
@@ -77,7 +78,7 @@ gulp.task('sass', function() {
   // The onerror handler prevents Gulp from crashing when you make a mistake in your SASS
   .pipe(sass({onError: function(e) { console.log(e); } }))
   // Optionally add autoprefixer
-  .pipe(autoprefixer("last 2 versions", "> 1%", "ie 8"))
+  //.pipe(autoprefixer("last 2 versions", "> 1%", "ie 8"))
   // These last two should look familiar now :)
   .pipe(gulp.dest('./src/app/assets/css/'));
   //.pipe(refresh(lrserver));
@@ -133,7 +134,7 @@ gulp.task('scripts', function() {
     .pipe(gulp.dest('./public/assets/js'));
 });
 
-gulp.task('build', [ 'ng-config', 'lint', 'sass', 'copy', 'scripts' ]);
+gulp.task('build', [ /*'lint',*/ 'ng-config', 'sass', 'copy', 'i18n', 'scripts' ]);
 
 gulp.task('default', ['serve'], function(){
     gulp.watch("./src/**/*.*", ["build"]);
