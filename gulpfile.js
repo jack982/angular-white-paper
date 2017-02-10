@@ -69,19 +69,19 @@ gulp.task('browserify', function() {
           .pipe( gulp.dest('./public/') );
 });
 
-
-gulp.task('browserify-tests', function () {
-  var bundler = browserify({debug: true});
-  glob
-  .sync(paths.src + '**/*.spec.js')
-  .forEach(function (file) {
-    bundler.add(file);
-  });
-  return bundler
-  .bundle()
-  .pipe(source('browserified_tests.js'))
-  .pipe(gulp.dest(paths.test + 'browserified'));
-});
+//
+//gulp.task('browserify-tests', function () {
+//  var bundler = browserify({debug: true});
+//  glob
+//  .sync(paths.src + '**/*.spec.js')
+//  .forEach(function (file) {
+//    bundler.add(file);
+//  });
+//  return bundler
+//  .bundle()
+//  .pipe(source('browserified_tests.js'))
+//  .pipe(gulp.dest(paths.test + 'browserified'));
+//});
 
 gulp.task('karma' , ['browserify'], function (done) {
     
@@ -173,6 +173,6 @@ gulp.task('watch', ['build'], function (done) {
 });
 
 gulp.task('default', ['serve'], function(){
-    gulp.watch("./src/**/*.*", ['watch']);
+    gulp.watch(['./src/**/*.html', './src/**/*.js', './src/**/*.css', './src/**/*.json'], ['watch']);
     //gulp.watch("./public/**/*.*").on('change', browserSync.reload);
 });

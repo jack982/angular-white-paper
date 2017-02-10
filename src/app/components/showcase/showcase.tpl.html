@@ -10,6 +10,3 @@
 <ul ng-repeat="feature in vm.features track by $index">
     <li><img class="img-circle" src="{{feature.url}}" alt="{{feature.name}}"> {{feature.name}} <small>{{ feature.version }}</small></li>
 </ul> 
-
-<button type="button" ng-click="vm.changeLanguage('en')">English</button>
-<button type="button" ng-click="vm.changeLanguage('it')">Italian</button>

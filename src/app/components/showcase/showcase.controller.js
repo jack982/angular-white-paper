@@ -1,4 +1,4 @@
-function showcase($scope, featuresService, helloService,  $translate) {
+function showcase($scope, featuresService, helloService) {
     'use strict';
     
     var vm = this;
@@ -14,12 +14,8 @@ function showcase($scope, featuresService, helloService,  $translate) {
         featuresService.add(vm.item);
         vm.item = null;
     };
-
-    vm.changeLanguage = function(langKey) {
-        $translate.use(langKey);
-    };
 }
 
-showcase.$inject = ['$scope', 'featuresService', 'helloService', '$translate'];
+showcase.$inject = ['$scope', 'featuresService', 'helloService'];
 
 module.exports = showcase;
