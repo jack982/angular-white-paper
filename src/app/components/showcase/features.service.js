@@ -1,19 +1,44 @@
 var features = function () {
     'use strict';
-    
+
     var features = [
         {
-          name: 'ui-router',
+          name: 'Bootstrap',
+          version: '1.0',
+          url:  'http://placehold.it/150x150'
+        },
+        {
+          name: 'Browserify',
           version: '1.0',
           url: 'http://placehold.it/150x150'
         },
         {
-          name: 'bootstrap',
+          name: 'Browser-Sync',
           version: '1.0',
           url:  'http://placehold.it/150x150'
         },
-      {
-          name: 'karma',
+        {
+          name: 'FontAwesome',
+          version: '1.0',
+          url:  'http://placehold.it/150x150'
+        },
+        {
+          name: 'Gulp',
+          version: '1.0',
+          url:  'http://placehold.it/150x150'
+        },
+        {
+          name: 'Karma',
+          version: '1.0',
+          url: 'http://placehold.it/150x150'
+        },
+        {
+          name: 'Jasmine',
+          version: '1.0',
+          url:  'http://placehold.it/150x150'
+        },
+        {
+          name: 'PhantomJS',
           version: '1.0',
           url:  'http://placehold.it/150x150'
         }

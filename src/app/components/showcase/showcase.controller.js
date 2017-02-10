@@ -1,8 +1,9 @@
 function showcase($scope, featuresService, helloService) {
     'use strict';
-    
+
     var vm = this;
     vm.title = 'showcase';
+
 
     vm.features = featuresService.list();
 

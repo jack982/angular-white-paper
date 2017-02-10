@@ -22,7 +22,6 @@
   },
   "homepage": "https://github.com/jack982/angular-white-paper#readme",
   "devDependencies": {
-    "bower": "^1.8.0",
     "browser-sync": "^2.18.6",
     "browserify": "^14.0.0",
     "browserify-ngannotate": "^2.0.0",

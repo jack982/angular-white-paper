@@ -37,7 +37,7 @@ var paths = {
 
 gulp.task('ng-config', function() {
   var json = JSON.stringify(config[ENV]);
-   
+
   return b2v.stream(new Buffer(json), 'app.constants.js')
     .pipe(ngConfig('app.constants', { constants: config[ENV], createModule:true }))
     .pipe(gulp.dest('./src/app'));
@@ -84,19 +84,19 @@ gulp.task('browserify', function() {
 //});
 
 gulp.task('karma' , ['browserify'], function (done) {
-    
+
     new Server({
         configFile: __dirname + '/test/karma.conf.js',
         singleRun: true
     }, function() {
         done()
     }).start();
-    
-    
+
+
 //    var testFiles = [
 //        './src/**/*.spec.js'
 //    ];
-//    
+//
 //    return gulp.src(testFiles)
 //        .pipe(karma({
 //            configFile: './test/karma.conf.js',

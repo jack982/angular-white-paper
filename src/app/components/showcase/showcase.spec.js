@@ -14,21 +14,46 @@ describe('Angular White Paper Test Suite', function () {
         beforeEach(function () {
 
             featuresList =  [
-                {
-                  name: 'ui-router',
-                  version: '1.0',
-                  url: 'http://placehold.it/150x150'
-                },
-                {
-                  name: 'bootstrap',
-                  version: '1.0',
-                  url: 'http://placehold.it/150x150'
-                },
-                {
-                  name: 'karma',
-                  version: '1.0',
-                  url: 'http://placehold.it/150x150'
-                }
+              {
+                name: 'Bootstrap',
+                version: '1.0',
+                url:  'http://placehold.it/150x150'
+              },
+              {
+                name: 'Browserify',
+                version: '1.0',
+                url: 'http://placehold.it/150x150'
+              },
+              {
+                name: 'Browser-Sync',
+                version: '1.0',
+                url:  'http://placehold.it/150x150'
+              },
+              {
+                name: 'FontAwesome',
+                version: '1.0',
+                url:  'http://placehold.it/150x150'
+              },
+              {
+                name: 'Gulp',
+                version: '1.0',
+                url:  'http://placehold.it/150x150'
+              },
+              {
+                name: 'Karma',
+                version: '1.0',
+                url: 'http://placehold.it/150x150'
+              },
+              {
+                name: 'Jasmine',
+                version: '1.0',
+                url:  'http://placehold.it/150x150'
+              },
+              {
+                name: 'PhantomJS',
+                version: '1.0',
+                url:  'http://placehold.it/150x150'
+              }
             ];
 
             angular.mock.module(function ($provide) {
@@ -37,7 +62,7 @@ describe('Angular White Paper Test Suite', function () {
                         return featuresList;
                     },
                     add: function () {
-                        featuresList.push( { name: 'gulp', version: null, url: null} );
+                        featuresList.push( { name: 'feature added', version: null, url: null} );
                     }
                 };
 
@@ -71,20 +96,20 @@ describe('Angular White Paper Test Suite', function () {
         //         spyOn(featuresService, 'list').and.callThrough();
     //        expect(featuresService.list).toHaveBeenCalled();
             expect(featuresController.features).toBeDefined();
-            expect(featuresController.features.length).toBe(3);
+            expect(featuresController.features.length).toBe(8);
             expect(featuresController.features).toEqual(featuresList);
         });
 
         it('should add a feature to the list with a call to featuresService.add()', function () {
       //      expect(featuresService.list).toHaveBeenCalled();
             expect(featuresController.features).toBeDefined();
-            expect(featuresController.features.length).toBe(3);
+            expect(featuresController.features.length).toBe(8);
             spyOn(featuresService, 'add').and.callThrough();
             featuresService.add();
             expect(featuresService.add).toHaveBeenCalled();
-            expect(featuresController.features.length).toBe(4);
+            expect(featuresController.features.length).toBe(9);
             expect(featuresController.features).toEqual( featuresList );
-            expect(featuresController.features[3].name).toBe('gulp');
+            expect(featuresController.features[8].name).toBe('feature added');
         });
     });
 
@@ -94,26 +119,51 @@ describe('Angular White Paper Test Suite', function () {
         var featuresList;
 
         beforeEach(function() {
-           
+
             featuresList = [
-                {
-                  name: 'ui-router',
-                  version: '1.0',
-                  url: 'http://placehold.it/150x150'
-                },
-                {
-                  name: 'bootstrap',
-                  version: '1.0',
-                  url: 'http://placehold.it/150x150'
-                },
-                {
-                  name: 'karma',
-                  version: '1.0',
-                  url: 'http://placehold.it/150x150'
-                }
+              {
+                name: 'Bootstrap',
+                version: '1.0',
+                url:  'http://placehold.it/150x150'
+              },
+              {
+                name: 'Browserify',
+                version: '1.0',
+                url: 'http://placehold.it/150x150'
+              },
+              {
+                name: 'Browser-Sync',
+                version: '1.0',
+                url:  'http://placehold.it/150x150'
+              },
+              {
+                name: 'FontAwesome',
+                version: '1.0',
+                url:  'http://placehold.it/150x150'
+              },
+              {
+                name: 'Gulp',
+                version: '1.0',
+                url:  'http://placehold.it/150x150'
+              },
+              {
+                name: 'Karma',
+                version: '1.0',
+                url: 'http://placehold.it/150x150'
+              },
+              {
+                name: 'Jasmine',
+                version: '1.0',
+                url:  'http://placehold.it/150x150'
+              },
+              {
+                name: 'PhantomJS',
+                version: '1.0',
+                url:  'http://placehold.it/150x150'
+              }
             ];
         });
-        
+
 
         beforeEach(
 
@@ -161,7 +211,7 @@ describe('Angular White Paper Test Suite', function () {
 
             it('should return the first element of the list', function () {
                 expect(featuresService.get(0)).toBeDefined();
-                expect(featuresService.get(0).name).toBe('ui-router');
+                expect(featuresService.get(0).name).toBe('Bootstrap');
             });
 
             it('should return nothing if called with an invalid index', function () {
@@ -179,10 +229,10 @@ describe('Angular White Paper Test Suite', function () {
 
             it('should add an element to the end of the list', function () {
                 var toAdd = 'featureAdded';
-                expect(featuresService.list().length).toBe(3);
+                expect(featuresService.list().length).toBe(8);
                 featuresService.add(toAdd);
-                expect(featuresService.list().length).toBe(4);
-                expect(featuresService.get(3)).toBe(toAdd);
+                expect(featuresService.list().length).toBe(9);
+                expect(featuresService.get(8)).toBe(toAdd);
             });
 
         });

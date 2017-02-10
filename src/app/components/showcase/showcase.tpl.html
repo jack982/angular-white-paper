@@ -1,12 +1,13 @@
-<h2 class="text-center" translate="showcase.title">{{vm.title}}</h2>
+<div class="row">
+  <div class="text-center">
+    <h1 translate="showcase.title">{{vm.title}}</h1>
+  </div>
+</div>
 
+<div class="row">
+    <div ng-repeat="feature in vm.features track by $index" class="feature col-xs-6 col-sm-4 col-md-3">
+      <img class="center-block img-circle img-responsive" src="{{feature.url}}" alt="{{feature.name}}">
+      <h3 class="text-center">{{feature.name}}</h3>
+    </div>
+</div>
 
-<!--form ng-submit="vm.addItem()">
-    <label translate="showcase.form.item.label">Add Item</label>
-    <input type="text" name="item" ng-model="vm.item">
-    <button name="btnAdd" type="submit" translate="showcase.form.btnAdd">Add</button>
-</form-->
-
-<ul ng-repeat="feature in vm.features track by $index">
-    <li><img class="img-circle" src="{{feature.url}}" alt="{{feature.name}}"> {{feature.name}} <small>{{ feature.version }}</small></li>
-</ul> 
