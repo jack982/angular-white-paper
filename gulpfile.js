@@ -8,18 +8,22 @@ var package = require('./package.json');
 var gulp = require('gulp');
 var browserify = require('browserify');
 var source = require('vinyl-source-stream');
+var buffer = require('vinyl-buffer');
 var b2v = require('buffer-to-vinyl');
 var browserSync = require('browser-sync').create();
 var Server = require('karma').Server;
+//var karma = require('gulp-karma');
 var glob = require('glob');
 var fs = require('fs');
 var flatten = require('gulp-flatten');
 var concat = require('gulp-concat');
 var minify = require('gulp-minify');
+var uglify = require('gulp-uglify');
 var jshint = require('gulp-jshint');
 var autoprefixer = require('gulp-autoprefixer');
 var sass = require('gulp-sass');
 var ngAnnotate = require('gulp-ng-annotate');
+//var ngAnnotate = require('browserify-ngannotate');
 var ngConfig = require('gulp-ng-config');
 var config = require('./config/config.js');
 
@@ -47,10 +51,18 @@ gulp.task('lint', function() {
 });
 
 gulp.task('browserify', function() {
+//    var b = browserify( {
+//         entries: './src/app/app.module.js',
+//        debug: true,
+//       // paths: ['./js/controllers', './js/services', './js/directives'],
+//        transform: [ngAnnotate]
+//    });
   return browserify('./src/app/app.module.js')
           .bundle()
           .pipe( source('main.js') )
-          .pipe( ngAnnotate() )
+            .pipe(ngAnnotate())
+          .pipe(buffer())
+          .pipe( uglify() )
         //  .pipe( minify( {
         //        ignoreFiles: '*.spec.js'
         //   }))
@@ -71,13 +83,30 @@ gulp.task('browserify-tests', function () {
   .pipe(gulp.dest(paths.test + 'browserified'));
 });
 
-gulp.task('karma', ['browserify-tests'], function (done) {
+gulp.task('karma' , ['browserify'], function (done) {
+    
     new Server({
         configFile: __dirname + '/test/karma.conf.js',
         singleRun: true
     }, function() {
         done()
     }).start();
+    
+    
+//    var testFiles = [
+//        './src/**/*.spec.js'
+//    ];
+//    
+//    return gulp.src(testFiles)
+//        .pipe(karma({
+//            configFile: './test/karma.conf.js',
+//            action: 'run'
+//    }))
+//    .on('error', function(err) {
+//        console.log('karma tests failed: ' + err);
+//        throw err;
+//    });
+
 });
 
 

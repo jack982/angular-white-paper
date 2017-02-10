@@ -20,4 +20,6 @@ var config = function ($stateProvider) {
         });
 };
 
+config.$inject = ['$stateProvider'];
+
 module.exports = config;

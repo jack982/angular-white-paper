@@ -5,4 +5,6 @@ var run = function($rootScope, $translate) {
     });
 };
 
+run.$inject = ['$rootScope','$translate'];
+
 module.exports = run;

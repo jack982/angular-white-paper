@@ -20,6 +20,6 @@ function showcase($scope, featuresService, helloService,  $translate) {
     };
 }
 
-// showcase.$inject = ['$scope', 'featuresService'];
+showcase.$inject = ['$scope', 'featuresService', 'helloService', '$translate'];
 
 module.exports = showcase;

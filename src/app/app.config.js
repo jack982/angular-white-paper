@@ -22,4 +22,6 @@ var config = function ($stateProvider, $urlRouterProvider, $translateProvider, $
     //$translateProvider.determinePreferredLanguage();
 };
 
+config.$inject = ['$stateProvider', '$urlRouterProvider', '$translateProvider', '$translatePartialLoaderProvider'];
+
 module.exports = config;

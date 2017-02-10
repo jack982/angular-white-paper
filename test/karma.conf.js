@@ -10,32 +10,17 @@ module.exports = function(config) {
 
     // frameworks to use
     // available frameworks: https://npmjs.org/browse/keyword/karma-adapter
-    frameworks: ['jasmine'],
+    frameworks: ['jasmine', 'browserify'],
 
 
     // list of files / patterns to load in the browser
     files: [
-        /*
-        '../bower_components/angular/angular.js',
-        '../bower_components/angular-ui-router/release/angular-ui-router.min.js',
-        '../bower_components/angular-mocks/angular-mocks.js',
-        '../src/app/components/feature1/feature1.module.js',
-        '../src/app/components/feature1/feature1.controller.js',
-        '../src/app/components/feature1/features.service.js',
-        '../src/app/components/feature1/feature1.spec.js',
-        '../src/app/app.module.js'
-    */
-               
-
-        //'../node_modules/angular/angular.js',
-        //'../node_modules/angular-ui-router/release/angular-ui-router.min.js',
-         '../public/main.js',
+        '../public/main.js',
         '../node_modules/angular-mocks/angular-mocks.js',
         
-        'browserified/browserified_tests.js'
-   //     '../app/**/*.js',
-   //     'unit/*.js',
-  //      '../**/*.tpl.html'
+        //'browserified/browserified_tests.js'
+        '../src/app/**/*.spec.js'
+ 
     ],
 
     
@@ -45,17 +30,17 @@ module.exports = function(config) {
     ],
 
 
-      
-        browserify: {
-            watch: true,
-            debug: true
-        },
+
+    browserify: {
+        watch: true,
+        debug: true
+    },
         
       
     // preprocess matching files before serving them to the browser
     // available preprocessors: https://npmjs.org/browse/keyword/karma-preprocessor
     preprocessors: {
-     //    'test/*': ['browserify']
+           '../src/app/**/*.spec.js' : ['browserify']
 //        '../**/*.tpl.html': 'ng-html2js' //,
   //      '../app/**/*.js': 'coverage'
     },
