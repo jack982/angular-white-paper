@@ -111,13 +111,13 @@ gulp.task('karma' , ['browserify'], function (done) {
 
 
 gulp.task('sass', function() {
-  gulp.src('./src/app/assets/css/*.scss')
+  gulp.src('./src/assets/css/*.scss')
   // The onerror handler prevents Gulp from crashing when you make a mistake in your SASS
   .pipe(sass({onError: function(e) { console.log(e); } }))
   // Optionally add autoprefixer
   //.pipe(autoprefixer("last 2 versions", "> 1%", "ie 8"))
   // These last two should look familiar now :)
-  .pipe(gulp.dest('./src/app/assets/css/'));
+  .pipe(gulp.dest('./public/assets/css/'));
 });
 
 
@@ -145,7 +145,7 @@ gulp.task('serve', ['build'], function () {
 });
 
 gulp.task('copy', ['browserify', 'sass'], function() { //'ng-config', 'assets', 'i18n'], function() {
-    gulp.src(['./src/**/*.html', './src/**/*.css'])
+    gulp.src(['./src/**/*.html', './src/**/*.*', './src/**/*.css', '!./src/**/*.scss'])
         .pipe(gulp.dest('./public'))
 		.pipe(browserSync.stream())
 });
