@@ -29,7 +29,6 @@ var config = require('./config/config.js');
 var Cachebust = require('gulp-cachebust');
 var cachebust = new Cachebust();
 
-
 console.log('-->CURRENT ENVIRONMENT: ' + ENV );
 
 var paths = {
