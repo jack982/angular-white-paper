@@ -26,6 +26,8 @@ var ngAnnotate = require('gulp-ng-annotate');
 //var ngAnnotate = require('browserify-ngannotate');
 var ngConfig = require('gulp-ng-config');
 var config = require('./config/config.js');
+var Cachebust = require('gulp-cachebust');
+var cachebust = new Cachebust();
 
 
 console.log('-->CURRENT ENVIRONMENT: ' + ENV );
@@ -62,6 +64,7 @@ gulp.task('browserify', function() {
           .pipe( source('main.js') )
             .pipe(ngAnnotate())
           .pipe(buffer())
+          .pipe(cachebust.resources())
           .pipe( uglify() )
         //  .pipe( minify( {
         //        ignoreFiles: '*.spec.js'
@@ -114,6 +117,7 @@ gulp.task('sass', function() {
   gulp.src('./src/app/assets/css/*.scss')
   // The onerror handler prevents Gulp from crashing when you make a mistake in your SASS
   .pipe(sass({onError: function(e) { console.log(e); } }))
+  .pipe(cachebust.resources())
   // Optionally add autoprefixer
   //.pipe(autoprefixer("last 2 versions", "> 1%", "ie 8"))
   // These last two should look familiar now :)
@@ -146,6 +150,7 @@ gulp.task('serve', ['build'], function () {
 
 gulp.task('copy', ['browserify', 'sass'], function() { //'ng-config', 'assets', 'i18n'], function() {
     gulp.src(['./src/**/*.html', './src/**/*.css'])
+        .pipe(cachebust.references())
         .pipe(gulp.dest('./public'))
 		.pipe(browserSync.stream())
 });
@@ -160,10 +165,15 @@ gulp.task('i18n', function() {
 gulp.task('scripts', function() {
    gulp.src('./src/assets/js/*.js')
     .pipe(concat('vendor.min.js'))
+   .pipe(cachebust.resources())
     .pipe(gulp.dest('./public/assets/js'));
 });
 
-gulp.task('build', [ /*'lint',*/ 'ng-config', 'sass', 'copy', 'i18n', 'scripts', 'test' ]);
+gulp.task('build', [ /*'lint',*/ 'ng-config', 'sass', 'copy', 'i18n', 'scripts', 'test' ]/*, function() {
+    return gulp.src('index.html')
+        .pipe(cachebust.references())
+        .pipe(gulp.dest('./public'))
+}*/);
 
 gulp.task('test', ['karma']);
 
