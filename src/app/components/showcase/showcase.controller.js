@@ -1,4 +1,4 @@
-function showcase($scope, featuresService, helloService) {
+function showcase($scope, featuresService, helloService, notificationService) {
     'use strict';
 
     var vm = this;
@@ -15,8 +15,12 @@ function showcase($scope, featuresService, helloService) {
         featuresService.add(vm.item);
         vm.item = null;
     };
+
+  vm.notify = function() {
+    notificationService.notify("ciaooo");
+  };
 }
 
-showcase.$inject = ['$scope', 'featuresService', 'helloService'];
+showcase.$inject = ['$scope', 'featuresService', 'helloService','notificationService'];
 
 module.exports = showcase;

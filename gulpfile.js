@@ -154,6 +154,12 @@ gulp.task('copy', ['browserify', 'sass'], function() { //'ng-config', 'assets', 
 		.pipe(browserSync.stream())
 });
 
+gulp.task('flags', function() { //'ng-config', 'assets', 'i18n'], function() {
+    gulp.src(['./src/assets/flag-icon-css/**/*.svg'])
+        .pipe(cachebust.references())
+        .pipe(gulp.dest('./public/assets/flag-icon-css'))
+		.pipe(browserSync.stream())
+});
 
 gulp.task('i18n', function() {
     gulp.src(['./src/app/i18n/**/*.json'])

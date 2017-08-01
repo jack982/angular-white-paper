@@ -1,3 +1,36 @@
-<div class="pull-right" ng-controller="i18nController as vm">
-    <a href="#" ng-click="vm.changeLocale('en')">EN</a> - <a href="#" ng-click="vm.changeLocale('it')">IT</a>
-</div>
+<nav class="navbar navbar-default">
+  <div class="container-fluid">
+    <!-- Brand and toggle get grouped for better mobile display -->
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="#">Brand</a>
+    </div>
+
+    <!-- Collect the nav links, forms, and other content for toggling -->
+    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+      <ul class="nav navbar-nav">
+        <li ui-sref-active="active"><a ui-sref="showcase">Showcase</a></li>
+        <li ui-sref-active="active"><a ui-sref="notification-demo">Notifications</a></li>
+        <li ui-sref-active="active"><a ui-sref="auth-demo">Auth</a></li>
+        <li ui-sref-active="active"><a ui-sref="login-demo">Login</a></li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        <li class="dropdown"  ng-controller="i18nController as vm">
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Locale <span class="caret"></span></a>
+          <ul class="dropdown-menu">
+            <li><a href="#" ng-click="vm.changeLocale('en')"><span class="flag-icon flag-icon-gb"></span> EN</a></li>
+            <li><a href="#" ng-click="vm.changeLocale('it')"><span class="flag-icon flag-icon-it"></span> IT</a></li>
+            <li role="separator" class="divider"></li>
+            <li><a href="#">Separated link</a></li>
+          </ul>
+        </li>
+      </ul>
+    </div><!-- /.navbar-collapse -->
+  </div><!-- /.container-fluid -->
+</nav>
+
