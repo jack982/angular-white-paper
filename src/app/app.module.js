@@ -13,6 +13,7 @@ require('angular-translate-storage-cookie');
 // add shared and commons dependencies
 require('./app.constants.js');
 require('./shared');
+require('./shared/notification');
 
 // add here all custom applications' dependencies
 require('./components/showcase');
@@ -22,6 +23,7 @@ angular.module('angularWhitePaper', ['ui.router',
                                         'ngCookies',
                                         'app.constants',
                                         'app.shared',
+                                        'app.shared.notification',
                                         'app.showcase'])
     .config( require('./app.config.js') )
     .run( require('./app.run.js') );
