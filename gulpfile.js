@@ -64,7 +64,7 @@ gulp.task('browserify', function() {
             .pipe(ngAnnotate())
           .pipe(buffer())
           .pipe(cachebust.resources())
-          .pipe( uglify() )
+        //  .pipe( uglify() )
         //  .pipe( minify( {
         //        ignoreFiles: '*.spec.js'
         //   }))

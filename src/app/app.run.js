@@ -1,4 +1,4 @@
-var run = function ($rootScope, $translate, notificationService, AUTH_EVENTS, authService) {
+var run = function ($rootScope, $translate, $state, notificationService, AUTH_EVENTS, authService) {
 
   $rootScope.$on('$translatePartialLoaderStructureChanged', function () {
     console.log('$translatePartialLoaderStructureChanged');
@@ -15,19 +15,39 @@ var run = function ($rootScope, $translate, notificationService, AUTH_EVENTS, au
     console.log('AUTH_EVENT.notAuthorized');
   });
 
+  $rootScope.$on(AUTH_EVENTS.loggedIn, function() {
+    var currentUser = authService.username();
+    $rootScope.setCurrentUsername( currentUser );
+  });
 
+  $rootScope.$on(AUTH_EVENTS.loggedOut, function() {
+    $rootScope.setCurrentUsername( undefined );
+  });
 
   $rootScope.setCurrentUsername = function (name) {
-    $rootScope.username = name;
+    $rootScope.currentUser = name;
+    console.log("set username: " + name);
   };
 
-  //$rootScope.username = authService.username();
+  $rootScope.currentUser = authService.username();
 
+
+  $rootScope.$on("$stateChangeStart", function(event, toState, toParams, fromState, fromParams){
+    if (toState.authenticate && !authService.isAuthenticated()){
+      // User isn’t authenticated
+      $state.transitionTo("login-demo");
+      event.preventDefault();
+    }
+
+    if(toState.name == 'login-demo' && authService.isAuthenticated()) {
+      event.preventDefault();
+    }
+  });
 
   notificationService.notify("Application bootstrapped!");
 
 };
 
-run.$inject = ['$rootScope', '$translate', 'notificationService', 'authService'];
+run.$inject = ['$rootScope', '$translate', '$state', 'notificationService', 'AUTH_EVENTS', 'authService'];
 
 module.exports = run;

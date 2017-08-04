@@ -37,7 +37,7 @@ angular.module('angularWhitePaper', [ 'ngAnimate','ui.router',
                                         'app.notification-demo',
                                         'app.auth-demo'])
     .config( require('./app.config.js') )
-    .controller( require('./app.controller.js') )
+    .controller( 'AppController', require('./app.controller.js') )
     .run( require('./app.run.js') );
 
 

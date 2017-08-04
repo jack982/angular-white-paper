@@ -17,7 +17,7 @@
         <li ui-sref-active="active"><a ui-sref="showcase">Showcase</a></li>
         <li ui-sref-active="active"><a ui-sref="notification-demo">Notifications</a></li>
         <li ui-sref-active="active"><a ui-sref="auth-demo">Auth</a></li>
-        <li ui-sref-active="active"><a ui-sref="login-demo">Login</a></li>
+        <li ui-sref-active="active" ng-show="currentUser === undefined"><a ui-sref="login-demo">Login</a></li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
         <li class="dropdown"  ng-controller="i18nController as vm">
@@ -28,6 +28,9 @@
             <li role="separator" class="divider"></li>
             <li><a href="#">Separated link</a></li>
           </ul>
+        </li>
+         <li ng-show="currentUser !== undefined" class=""  ng-controller="logoutController as vm">
+           <a href="#" ng-click="vm.logout()">Logout</a>
         </li>
       </ul>
     </div><!-- /.navbar-collapse -->

@@ -1,4 +1,4 @@
-var config = function ($stateProvider) {
+var config = function ($stateProvider, AUTH_ROLES) {
     'use strict';
     $stateProvider
         .state('auth-demo', {
@@ -10,8 +10,30 @@ var config = function ($stateProvider) {
                     controllerAs: 'vm'
                 }
             },
+            authenticate: true,
             data: {
-
+                roles: [ AUTH_ROLES.admin, AUTH_ROLES.public ]
+            },
+            resolve: {
+                translatePartialLoader: ['$translate', '$translatePartialLoader',
+                                            function ($translate, $translatePartialLoader) {
+                        $translatePartialLoader.addPart('auth-demo');
+                        return $translate.refresh();
+                }]
+            }
+        })
+      .state('auth-demo-admin', {
+            url: '/protectedAdmin',
+            views: {
+                'main': {
+                    templateUrl: 'app/components/auth-demo/protectedAdmin.tpl.html',
+                    controller: 'authDemoAdminCtrl',
+                    controllerAs: 'vm'
+                }
+            },
+            authenticate: true,
+            data: {
+                roles: [ AUTH_ROLES.admin ]
             },
             resolve: {
                 translatePartialLoader: ['$translate', '$translatePartialLoader',
@@ -31,6 +53,7 @@ var config = function ($stateProvider) {
                     controllerAs: 'vm'
                 }
             },
+            authenticate: false,
             resolve: {
                 translatePartialLoader: ['$translate', '$translatePartialLoader',
                                             function ($translate, $translatePartialLoader) {
@@ -41,6 +64,6 @@ var config = function ($stateProvider) {
         });
 };
 
-config.$inject = ['$stateProvider'];
+config.$inject = ['$stateProvider', 'AUTH_ROLES'];
 
 module.exports = config;

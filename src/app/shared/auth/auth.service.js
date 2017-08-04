@@ -1,7 +1,7 @@
 var authService = function ($q, $http, AUTH_ROLES) {
 
   var LOCAL_TOKEN_KEY = 'yourTokenKey';
-  var username = '';
+  var username = undefined;
   var isAuthenticated = false;
   var role = '';
   var authToken;
@@ -37,7 +37,7 @@ var authService = function ($q, $http, AUTH_ROLES) {
 
   function destroyUserCredentials() {
     authToken = undefined;
-    username = '';
+    username = undefined;
     isAuthenticated = false;
     $http.defaults.headers.common['X-Auth-Token'] = undefined;
     window.localStorage.removeItem(LOCAL_TOKEN_KEY);

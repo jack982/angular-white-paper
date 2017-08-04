@@ -3,12 +3,13 @@ function authDemoCtrl($scope, notificationService) {
 
     var vm = this;
 
+};
 
-
+function authDemoAdminCtrl($scope, notificationService) {
 
 };
 
-function loginDemoCtrl($scope, notificationService, authService) {
+function loginDemoCtrl($scope, $state, notificationService, authService, AUTH_EVENTS) {
     'use strict';
 
     var vm = this;
@@ -17,10 +18,10 @@ function loginDemoCtrl($scope, notificationService, authService) {
 
     vm.login = function () {
         authService.login(vm.user.username, vm.user.password).then(function (authenticated) {
-            $state.go('auth-demo', {}, {
-                reload: true
-            });
+            $state.go('auth-demo', {}, { reload: true });
+
             //  $scope.setCurrentUsername(data.username);
+            $scope.$emit(AUTH_EVENTS.loggedIn);
         }, function (err) {
             notificationService.error("Check your credentials", "Login failed");
         });
@@ -30,10 +31,12 @@ function loginDemoCtrl($scope, notificationService, authService) {
 
 
 authDemoCtrl.$inject = ['$scope', 'notificationService'];
-loginDemoCtrl.$inject = ['$scope', 'notificationService', 'authService'];
+authDemoAdminCtrl.$inject = ['$scope', 'notificationService'];
+loginDemoCtrl.$inject = ['$scope', '$state', 'notificationService', 'authService', 'AUTH_EVENTS'];
 
 
 module.exports = {
     'authDemoCtrl': authDemoCtrl,
+    'authDemoAdminCtrl': authDemoAdminCtrl,
     'loginDemoCtrl': loginDemoCtrl
 };

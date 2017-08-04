@@ -1,4 +1,4 @@
-var appCtrl = function($scope, AUTH_EVENTS) {
+var appCtrl = function(authService, AUTH_EVENTS) {
 
     /*
 
@@ -10,10 +10,18 @@ var appCtrl = function($scope, AUTH_EVENTS) {
         console.log('AUTH_EVENT.notAuthorized');
     });
     */
+
+   var vm = this;
+
+   vm.currentUser = function() {
+     return authService.username();
+   }
+
+
 };
 
 
-appCtrl.$inject = ['$scope', 'AUTH_EVENTS'];
+appCtrl.$inject = ['authService', 'AUTH_EVENTS'];
 
 module.exports = appCtrl;
 

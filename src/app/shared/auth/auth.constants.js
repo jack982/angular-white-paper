@@ -1,7 +1,9 @@
 var consts = {
  'EVENTS' : {
     notAuthenticated: 'auth-not-authenticated',
-    notAuthorized: 'auth-not-authorized'
+    notAuthorized: 'auth-not-authorized',
+    loggedIn: 'auth-loggedIn',
+    loggedOut: 'auth-loggedOut'
  },
   'ROLES' : {
      admin: 'admin_role',
