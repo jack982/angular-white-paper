@@ -8,8 +8,9 @@ require('angular-translate-loader-static-files');
 require('angular-translate-loader-partial');
 require('angular-translate-storage-local');
 require('angular-translate-storage-cookie');
-require('angularjs-toaster');
 require('angular-animate');
+require('angularjs-toaster');
+
 
 
 // add shared and commons dependencies

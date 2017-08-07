@@ -16,7 +16,7 @@
       <ul class="nav navbar-nav">
         <li ui-sref-active="active"><a ui-sref="showcase">Showcase</a></li>
         <li ui-sref-active="active"><a ui-sref="notification-demo">Notifications</a></li>
-        <li ui-sref-active="active"><a ui-sref="auth-demo">Auth</a></li>
+        <li ui-sref-active="active" ng-show="currentUser !== undefined"><a ui-sref="auth-demo">Auth</a></li>
         <li ui-sref-active="active" ng-show="currentUser === undefined"><a ui-sref="login-demo">Login</a></li>
       </ul>
       <ul class="nav navbar-nav navbar-right">

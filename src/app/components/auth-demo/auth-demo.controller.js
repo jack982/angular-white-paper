@@ -18,10 +18,10 @@ function loginDemoCtrl($scope, $state, notificationService, authService, AUTH_EV
 
     vm.login = function () {
         authService.login(vm.user.username, vm.user.password).then(function (authenticated) {
-            $state.go('auth-demo', {}, { reload: true });
-
-            //  $scope.setCurrentUsername(data.username);
             $scope.$emit(AUTH_EVENTS.loggedIn);
+            $state.go('auth-demo', {}, { reload: true });
+            //  $scope.setCurrentUsername(data.username);
+           
         }, function (err) {
             notificationService.error("Check your credentials", "Login failed");
         });
