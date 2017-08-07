@@ -38,6 +38,11 @@ var run = function ($rootScope, $translate, $state, notificationService, AUTH_EV
       $state.transitionTo("login-demo");
       event.preventDefault();
     }
+    
+    if ( toState.data !== undefined && toState.data.roles !== undefined && !authService.isAuthorized( toState.data.roles )) {
+        event.preventDefault();
+        notificationService.error("You haven't the required role to access the requested page.", "Authorization error");
+    }
 
     if(toState.name == 'login-demo' && authService.isAuthenticated()) {
       event.preventDefault();

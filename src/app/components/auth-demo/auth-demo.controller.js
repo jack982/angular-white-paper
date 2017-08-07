@@ -6,7 +6,9 @@ function authDemoCtrl($scope, notificationService) {
 };
 
 function authDemoAdminCtrl($scope, notificationService) {
-
+    'use strict';
+    
+    var vm = this;
 };
 
 function loginDemoCtrl($scope, $state, notificationService, authService, AUTH_EVENTS) {
