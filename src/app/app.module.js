@@ -25,7 +25,8 @@ require('./components/notification-demo');
 require('./components/auth-demo');
 
 
-angular.module('angularWhitePaper', [ 'ngAnimate','ui.router',
+angular.module('angularWhitePaper', [ 'ngAnimate',
+                                        'ui.router',
                                         'pascalprecht.translate',
                                         'ngCookies',
                                         'ngAnimate',

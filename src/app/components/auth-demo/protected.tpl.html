@@ -1,3 +1,32 @@
 <h1>Protected page</h1>
 
 <p>You should be able to access this page only if <strong>authenticated</strong>.</p>
+
+
+<hr>
+
+<h2>Test HTTP Request/Response interceptor</h2>
+
+<div class="row">
+  <div class="col-md-4">
+    <button class="btn btn-success" ng-click="vm.performValidRequest()">Valid request (200)</button>
+  </div>
+
+  <div class="col-md-4">
+    <button class="btn btn-danger" ng-click="vm.performNotAuthenticatedRequest()">Not authenticated request (401)</button>
+  </div>
+
+  <div class="col-md-4">
+    <button class="btn btn-danger" ng-click="vm.performNotAuthorizedRequest()">Not authorized request (403)</button>
+  </div>
+
+</div>
+<br>
+<div class="row">
+<h3>Response</h3>
+  <p>
+    {{ vm.response  | json  }}
+  </p>
+
+</div>
+
