@@ -3,8 +3,8 @@ function authDemoCtrl($scope, $http, notificationService) {
 
     var vm = this;
 
-    vm.response = '';
-
+    vm.response = undefined;
+    
     vm.performValidRequest = function() {
         $http.get('https://httpbin.org/status/200').then(function(result) {
             vm.response = result;
