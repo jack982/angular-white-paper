@@ -1,4 +1,4 @@
-var config = function ($stateProvider, AUTH_ROLES) {
+var config = function ($stateProvider, AUTH_ROLES, $translatePartialLoaderProvider) {
     'use strict';
     $stateProvider
         .state('auth-demo', {
@@ -13,14 +13,14 @@ var config = function ($stateProvider, AUTH_ROLES) {
             authenticate: true,
             data: {
                 roles: [ AUTH_ROLES.admin, AUTH_ROLES.public ]
-            },
+            }/*,
             resolve: {
                 translatePartialLoader: ['$translate', '$translatePartialLoader',
                                             function ($translate, $translatePartialLoader) {
                         $translatePartialLoader.addPart('auth-demo');
                         return $translate.refresh();
                 }]
-            }
+            }*/
         })
       .state('auth-demo-admin', {
             url: '/protectedAdmin',
@@ -34,7 +34,7 @@ var config = function ($stateProvider, AUTH_ROLES) {
             authenticate: true,
             data: {
                 roles: [ AUTH_ROLES.admin ]
-            },
+            }/*,
             resolve: {
                 translatePartialLoader: ['$translate', '$translatePartialLoader',
                                             function ($translate, $translatePartialLoader) {
@@ -42,6 +42,7 @@ var config = function ($stateProvider, AUTH_ROLES) {
                         return $translate.refresh();
                 }]
             }
+            */
         })
 
       .state('login-demo', {
@@ -53,7 +54,7 @@ var config = function ($stateProvider, AUTH_ROLES) {
                     controllerAs: 'vm'
                 }
             },
-            authenticate: false,
+            authenticate: false/*,
             resolve: {
                 translatePartialLoader: ['$translate', '$translatePartialLoader',
                                             function ($translate, $translatePartialLoader) {
@@ -61,9 +62,12 @@ var config = function ($stateProvider, AUTH_ROLES) {
                         return $translate.refresh();
                 }]
             }
+            */
         });
+
+         $translatePartialLoaderProvider.addPart('app/components/auth-demo');
 };
 
-config.$inject = ['$stateProvider', 'AUTH_ROLES'];
+config.$inject = ['$stateProvider', 'AUTH_ROLES', '$translatePartialLoaderProvider'];
 
 module.exports = config;

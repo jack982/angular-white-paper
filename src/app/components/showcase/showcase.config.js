@@ -1,4 +1,4 @@
-var config = function ($stateProvider) {
+var config = function ($stateProvider, $translatePartialLoaderProvider) {
     'use strict';
     $stateProvider
         .state('showcase', {
@@ -9,7 +9,7 @@ var config = function ($stateProvider) {
                     controller: 'showcase',
                     controllerAs: 'vm'
                 }
-            },
+            }/*,
             resolve: {
                 translatePartialLoader: ['$translate', '$translatePartialLoader',
                                             function ($translate, $translatePartialLoader) {
@@ -17,9 +17,12 @@ var config = function ($stateProvider) {
                         return $translate.refresh();
                 }]
             }
+            */
         });
+
+    $translatePartialLoaderProvider.addPart('app/components/showcase');
 };
 
-config.$inject = ['$stateProvider'];
+config.$inject = ['$stateProvider', '$translatePartialLoaderProvider'];
 
 module.exports = config;
