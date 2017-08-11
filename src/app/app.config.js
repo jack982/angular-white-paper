@@ -24,7 +24,7 @@ var config = function ($stateProvider, $urlRouterProvider, $translateProvider, $
 
     $translateProvider.useLoader('$translatePartialLoader', {
         //urlTemplate: './i18n/{part}/{lang}.json'
-        urlTemplate: '{part}/{lang}.json'
+        urlTemplate: '{part}/lang-{lang}.json'
     });
     $translateProvider.preferredLanguage('en');
     $translateProvider.useLocalStorage();

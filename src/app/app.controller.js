@@ -12,11 +12,11 @@ var appCtrl = function(authService, AUTH_EVENTS) {
     */
 
    var vm = this;
-
+/*
    vm.currentUser = function() {
      return authService.username();
    }
-
+*/
 
 };
 
