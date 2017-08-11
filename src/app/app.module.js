@@ -16,6 +16,7 @@ require('angularjs-toaster');
 // add shared and commons dependencies
 require('./app.constants.js');
 require('./shared');
+require('./shared/i18n');
 require('./shared/notification');
 require('./shared/auth');
 
@@ -33,6 +34,7 @@ angular.module('angularWhitePaper', [ 'ngAnimate',
                                         'toaster',
                                         'app.constants',
                                         'app.shared',
+                                        'app.shared.i18n',
                                         'app.shared.auth',
                                         'app.shared.notification',
                                         'app.showcase',

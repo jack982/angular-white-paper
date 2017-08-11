@@ -4,7 +4,7 @@ var angular = require('angular');
 
 angular
      .module('app.shared.notification', ['toaster'])
-	// .config(require('./showcase.config.js'))
-    //    .controller('showcase', require('./showcase.controller.js'))
-          .service('notificationService', require('./notification.service.js'));
+	 .config(require('./notification.config.js'))
+     .service('notificationService', require('./notification.service.js'))
+     .run(require('./notification.run.js'));
 

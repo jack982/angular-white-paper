@@ -1,9 +1,9 @@
-var service = function (toaster) {
+var service = function ($log, toaster) {
 
 
     var notify =  function (message, title, type) {
             toaster.pop(type, title, message);
-            console.log(message);
+            $log.debug(message);
     };
 
     return {
@@ -25,6 +25,6 @@ var service = function (toaster) {
     };
 };
 
-service.$inject = ['toaster'];
+service.$inject = ['$log', 'toaster'];
 
 module.exports = service;

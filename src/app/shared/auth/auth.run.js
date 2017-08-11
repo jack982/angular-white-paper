@@ -1,9 +1,9 @@
-var run = function($rootScope, notificationService) {
+var run = function($rootScope, $log) {
 
-    notificationService.notify("Auth module bootstrapped!");
+    $log.debug("app.shared.auth module bootstrapped!");
 
 };
 
-run.$inject = ['$rootScope','notificationService'];
+run.$inject = ['$rootScope','$log'];
 
 module.exports = run;
