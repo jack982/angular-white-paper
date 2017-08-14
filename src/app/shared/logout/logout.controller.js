@@ -1,4 +1,4 @@
-var logoutController = function ($scope, $state, authService, AUTH_EVENTS) {
+var logoutController = function ($scope, authService, AUTH_EVENTS) {
     var vm = this;
 
     vm.logout = function() {
@@ -8,7 +8,7 @@ var logoutController = function ($scope, $state, authService, AUTH_EVENTS) {
     }
 }
 
-logoutController.$inject = ['$scope', '$state', 'authService', 'AUTH_EVENTS'];
+logoutController.$inject = ['$scope', 'authService', 'AUTH_EVENTS'];
 
 
 module.exports = logoutController;

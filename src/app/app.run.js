@@ -1,14 +1,14 @@
-var run = function ($rootScope, $translate, $state, notificationService, AUTH_EVENTS, authService) {
+var run = function ($rootScope, $translate, $state, notificationService, loggerService, AUTH_EVENTS, authService) {
 
   $rootScope.$on('$translatePartialLoaderStructureChanged', function () {
-    console.log('$translatePartialLoaderStructureChanged');
+    loggerService.debug('$translatePartialLoaderStructureChanged');
     $translate.refresh();
   });
 
 
 
   $rootScope.$on(AUTH_EVENTS.notAuthenticated, function () {
-    console.log('AUTH_EVENT.notAuthenticated');
+    loggerService.debug('AUTH_EVENT.notAuthenticated');
     authService.logout();
     $rootScope.setCurrentUsername( undefined );
     notificationService.error("You aren't authenticated. Please login.", "Authentication error");
@@ -16,7 +16,7 @@ var run = function ($rootScope, $translate, $state, notificationService, AUTH_EV
   });
 
   $rootScope.$on(AUTH_EVENTS.notAuthorized, function () {
-    console.log('AUTH_EVENT.notAuthorized');
+    loggerService.debug('AUTH_EVENT.notAuthorized');
     notificationService.error("You haven't the required role to access the requested page.", "Authorization error");
   });
 
@@ -32,7 +32,7 @@ var run = function ($rootScope, $translate, $state, notificationService, AUTH_EV
 
   $rootScope.setCurrentUsername = function (name) {
     $rootScope.currentUser = name;
-    console.log("set username: " + name);
+    loggerService.debug("set username: " + name);
   };
 
   $rootScope.currentUser = authService.username();
@@ -69,11 +69,10 @@ var run = function ($rootScope, $translate, $state, notificationService, AUTH_EV
 
 
 */
-  notificationService.notify("Application bootstrapped!");
-
+  loggerService.debug("Application bootstrapped");
 };
 
         
-run.$inject = ['$rootScope', '$translate', '$state', 'notificationService', 'AUTH_EVENTS', 'authService'];
+run.$inject = ['$rootScope', '$translate', '$state', 'notificationService', 'loggerService', 'AUTH_EVENTS', 'authService'];
 
 module.exports = run;

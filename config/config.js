@@ -2,21 +2,23 @@ var package = require('../package.json');
 
 var shared = {
     APP_VERSION: package.version,
-    ENABLE_DEBUG : process.env.ENABLE_DEBUG || false,
-    JWT_APP_SECRET: process.env.JWT_APP_SECRET
+    DEBUG_ENABLED : process.env.APP_DEBUG_ENABLED || false,
+    APP_SECRET: process.env.APP_SECRET,
+    API_DEMO_URL : process.env.APP_API_DEMO_URL,
+    APP_LOCAL_TOKEN_KEY: process.env.APP_LOCAL_TOKEN_KEY || 'yourTokenKey'
 }
 
 
 var environments = {
     development : {
-        ENV_VARS : Object.assign({}, shared)
+        APP_CONSTANTS : Object.assign({}, shared)
     },
     production : {
-        ENV_VARS : Object.assign({}, shared)
+        APP_CONSTANTS : Object.assign({}, shared)
     }
 }
 
-environments.development.ENV_VARS.ENABLE_DEBUG = true;
+environments.production.APP_CONSTANTS.BUILD_PACK_URL = 'https://www.google.com/angular';
 
 
 module.exports = environments;

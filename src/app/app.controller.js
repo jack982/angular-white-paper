@@ -1,4 +1,4 @@
-var appCtrl = function(authService, AUTH_EVENTS) {
+var appCtrl = function(authService, AUTH_EVENTS, APP_CONSTANTS) {
 
     /*
 
@@ -12,6 +12,8 @@ var appCtrl = function(authService, AUTH_EVENTS) {
     */
 
    var vm = this;
+
+   vm.APP_VERSION = APP_CONSTANTS.APP_VERSION;
 /*
    vm.currentUser = function() {
      return authService.username();
@@ -21,7 +23,7 @@ var appCtrl = function(authService, AUTH_EVENTS) {
 };
 
 
-appCtrl.$inject = ['authService', 'AUTH_EVENTS'];
+appCtrl.$inject = ['authService', 'AUTH_EVENTS', 'APP_CONSTANTS'];
 
 module.exports = appCtrl;
 

@@ -1,5 +1,5 @@
 var run = function($rootScope, loggerService) {
-    loggerService.debug("app.shared.i18n module boostrapped!");
+    loggerService.debug("app.shared.logout module boostrapped!");
 };
 
 run.$inject = ['$rootScope','loggerService'];

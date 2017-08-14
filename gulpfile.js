@@ -25,7 +25,10 @@ var sass = require('gulp-sass');
 var ngAnnotate = require('gulp-ng-annotate');
 //var ngAnnotate = require('browserify-ngannotate');
 var ngConfig = require('gulp-ng-config');
+
+// let's load our ENV variables
 var config = require('./config/config.js');
+
 var Cachebust = require('gulp-cachebust');
 var cachebust = new Cachebust();
 

@@ -1,5 +1,4 @@
-function config() {
-    
-}
+function config() {  
+};
 
 module.exports = config;
