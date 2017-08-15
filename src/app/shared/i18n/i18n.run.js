@@ -1,7 +1,7 @@
-var run = function($rootScope, loggerService) {
-    loggerService.debug("app.shared.i18n module boostrapped!");
+var run = function($rootScope, $log) {
+    $log.debug("app.shared.i18n module boostrapped!");
 };
 
-run.$inject = ['$rootScope','loggerService'];
+run.$inject = ['$rootScope','$log'];
 
 module.exports = run;

@@ -1,14 +1,14 @@
-var run = function ($rootScope, $translate, $state, notificationService, loggerService, AUTH_EVENTS, authService) {
+var run = function ($rootScope, $translate, $state, notificationService, $log, AUTH_EVENTS, authService) {
 
   $rootScope.$on('$translatePartialLoaderStructureChanged', function () {
-    loggerService.debug('$translatePartialLoaderStructureChanged');
+    $log.debug('$translatePartialLoaderStructureChanged');
     $translate.refresh();
   });
 
 
 
   $rootScope.$on(AUTH_EVENTS.notAuthenticated, function () {
-    loggerService.debug('AUTH_EVENT.notAuthenticated');
+    $log.debug('AUTH_EVENT.notAuthenticated');
     authService.logout();
     $rootScope.setCurrentUsername( undefined );
     notificationService.error("You aren't authenticated. Please login.", "Authentication error");
@@ -16,7 +16,7 @@ var run = function ($rootScope, $translate, $state, notificationService, loggerS
   });
 
   $rootScope.$on(AUTH_EVENTS.notAuthorized, function () {
-    loggerService.debug('AUTH_EVENT.notAuthorized');
+    $log.debug('AUTH_EVENT.notAuthorized');
     notificationService.error("You haven't the required role to access the requested page.", "Authorization error");
   });
 
@@ -32,7 +32,7 @@ var run = function ($rootScope, $translate, $state, notificationService, loggerS
 
   $rootScope.setCurrentUsername = function (name) {
     $rootScope.currentUser = name;
-    loggerService.debug("set username: " + name);
+    $log.debug("set username: " + name);
   };
 
   $rootScope.currentUser = authService.username();
@@ -69,10 +69,10 @@ var run = function ($rootScope, $translate, $state, notificationService, loggerS
 
 
 */
-  loggerService.debug("Application bootstrapped");
+  $log.debug("Application bootstrapped");
 };
 
         
-run.$inject = ['$rootScope', '$translate', '$state', 'notificationService', 'loggerService', 'AUTH_EVENTS', 'authService'];
+run.$inject = ['$rootScope', '$translate', '$state', 'notificationService', '$log', 'AUTH_EVENTS', 'authService'];
 
 module.exports = run;
