@@ -1,9 +1,9 @@
-var run = function($rootScope, loggerService) {
+var run = function($rootScope, loggingService) {
 
-    loggerService.debug("app.shared.auth module bootstrapped!");
+    loggingService.debug("app.shared.auth module bootstrapped!");
 
 };
 
-run.$inject = ['$rootScope', 'loggerService'];
+run.$inject = ['$rootScope', 'loggingService'];
 
 module.exports = run;

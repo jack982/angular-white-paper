@@ -1,4 +1,4 @@
-var run = function($rootScope,$log) {
+var run = function($rootScope, $log) {
     $log.debug("app.shared.notification module boostrapped!");
 };
 

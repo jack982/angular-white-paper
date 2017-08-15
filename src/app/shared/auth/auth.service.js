@@ -1,4 +1,4 @@
-var authService = function ($q, $http, loggerService, AUTH_ROLES) {
+var authService = function ($q, $http, loggingService, AUTH_ROLES) {
 
   var LOCAL_TOKEN_KEY = 'yourTokenKey';
   var username = undefined;
@@ -20,7 +20,8 @@ var authService = function ($q, $http, loggerService, AUTH_ROLES) {
   }
 
   function useCredentials(token) {
-    loggerService.debug('using credentials: ' + token);
+    loggingService.debug('using credentials: ' + token);
+
     username = token.split('.')[0];
     isAuthenticated = true;
     authToken = token;
@@ -85,6 +86,6 @@ var authService = function ($q, $http, loggerService, AUTH_ROLES) {
   };
 };
 
-authService.$inject = ['$q', '$http', 'loggerService', 'AUTH_ROLES'];
+authService.$inject = ['$q', '$http', 'loggingService', 'AUTH_ROLES'];
 
 module.exports = authService;
