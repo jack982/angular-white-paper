@@ -1,7 +1,7 @@
-var run = function($rootScope, $log) {
-    $log.debug("app.shared.notification module boostrapped!");
+var run = function($rootScope, loggingService) {
+    loggingService.debug("app.shared.notification module boostrapped!");
 };
 
-run.$inject = ['$rootScope', '$log'];
+run.$inject = ['$rootScope', 'loggingService'];
 
 module.exports = run;

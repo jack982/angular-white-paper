@@ -17,8 +17,8 @@ require('angularjs-toaster');
 require('./app.constants.js');
 require('./shared');
 require('./shared/logger');
-require('./shared/i18n');
 require('./shared/notification');
+require('./shared/i18n');
 require('./shared/auth');
 require('./shared/logout');
 

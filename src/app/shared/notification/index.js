@@ -1,10 +1,8 @@
 var angular = require('angular');
 
-//require('angular-ui-router');
-
 angular
-     .module('app.shared.notification', ['toaster'])
+     .module('app.shared.notification', ['toaster', 'app.shared.logger'])
 	 .config(require('./notification.config.js'))
      .service('notificationService', require('./notification.service.js'))
-     .run(require('./notification.run.js'));
+       .run( require('./notification.run.js') );
 
