@@ -1,12 +1,15 @@
 describe('Angular White Paper Test Suite', function () {
 
+     beforeEach(angular.mock.module('app.shared'))
+   beforeEach(angular.mock.module('app.shared.logger'));
     beforeEach(angular.mock.module('app.showcase')); // include app module in our tests
 
     describe('Testing showcase controller', function () {
         var featuresController, featuresService, scope, $controller, featuresList;
 
         beforeEach(angular.mock.module('ui.router'));
-
+ beforeEach(angular.mock.module('app.shared'));
+        beforeEach(angular.mock.module('app.shared.logger'));
         beforeEach(angular.mock.module('app.showcase'));
 
 

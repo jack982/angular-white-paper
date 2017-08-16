@@ -1,4 +1,4 @@
-var features = function () {
+var features = function (loggingService) {
     'use strict';
 
     var features = [
@@ -46,6 +46,7 @@ var features = function () {
 
     return {
         'list': function () {
+            loggingService.debug("retrieving features list...");
             return features;
         },
         'get': function (index) {
@@ -60,5 +61,7 @@ var features = function () {
         }
     };
 };
+
+features.$inject = ['loggingService'];
 
 module.exports = features;
