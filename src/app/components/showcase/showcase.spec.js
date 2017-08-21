@@ -1,17 +1,17 @@
 describe('Angular White Paper Test Suite', function () {
 
-     beforeEach(angular.mock.module('app.shared'))
-   beforeEach(angular.mock.module('app.shared.logger'));
-    beforeEach(angular.mock.module('app.showcase')); // include app module in our tests
 
+    // beforeEach(angular.mock.module('ui.router'));
+    //beforeEach(angular.mock.module('app.showcase')); // include app module in our tests
+
+    /*
     describe('Testing showcase controller', function () {
         var featuresController, featuresService, scope, $controller, featuresList;
 
-        beforeEach(angular.mock.module('ui.router'));
- beforeEach(angular.mock.module('app.shared'));
-        beforeEach(angular.mock.module('app.shared.logger'));
-        beforeEach(angular.mock.module('app.showcase'));
+      //  beforeEach(angular.mock.module('ui.router'));
 
+      beforeEach(angular.mock.module('app.shared', 'app.shared.logger', 'app.showcase'));
+      
 
         // mock dependency (before inject)
         beforeEach(function () {
@@ -58,6 +58,31 @@ describe('Angular White Paper Test Suite', function () {
                 url:  'http://placehold.it/150x150'
               }
             ];
+
+            angular.mock.module(function($provide) {
+                var mockedLoggingService = {
+                        'mockMessage' : function(){
+                            return "mocked logging service";
+                        },
+                       'log': function (msg) {
+                            return mockMessage();
+                        },
+                        'debug': function (msg) {
+                            return mockMessage();
+                        },
+                        'info': function (msg) {
+                            return mockMessage();
+                        },
+                        'warn': function (msg) {
+                            return mockMessage();
+                        },
+                        'error': function (msg) {
+                            return mockMessage();
+                        }
+                    };
+
+                    $provide.value('loggingService', mockedLoggingService);
+            });
 
             angular.mock.module(function ($provide) {
                 var mockedFeatureService = {
@@ -111,62 +136,118 @@ describe('Angular White Paper Test Suite', function () {
             expect(featuresController.features[8].name).toBe('feature added');
         });
     });
+*/
+
+
 
     describe('Testing featuresService', function () {
 
-        var featuresService; //  scope, ctrl, httpBackend, timeout,
         var featuresList;
+        var LOG_MSG = "this is a log message";
+     
 
         beforeEach(function() {
-
+            
             featuresList = [
-              {
+                {
                 name: 'Bootstrap',
                 version: '1.0',
                 url:  'http://placehold.it/150x150'
-              },
-              {
+                },
+                {
                 name: 'Browserify',
                 version: '1.0',
                 url: 'http://placehold.it/150x150'
-              },
-              {
+                },
+                {
                 name: 'Browser-Sync',
                 version: '1.0',
                 url:  'http://placehold.it/150x150'
-              },
-              {
+                },
+                {
                 name: 'FontAwesome',
                 version: '1.0',
                 url:  'http://placehold.it/150x150'
-              },
-              {
+                },
+                {
                 name: 'Gulp',
                 version: '1.0',
                 url:  'http://placehold.it/150x150'
-              },
-              {
+                },
+                {
                 name: 'Karma',
                 version: '1.0',
                 url: 'http://placehold.it/150x150'
-              },
-              {
+                },
+                {
                 name: 'Jasmine',
                 version: '1.0',
                 url:  'http://placehold.it/150x150'
-              },
-              {
+                },
+                {
                 name: 'PhantomJS',
                 version: '1.0',
                 url:  'http://placehold.it/150x150'
-              }
+                }
             ];
+
+          
         });
+
+        describe('testing logging', function() {
+
+            it('loggingService should be defined', function() {
+            
+                angular.mock.module(function($provide) {
+                    var mockedLoggingService = {
+
+                           log: function (msg) {
+                                 return msg;
+                            },
+                            debug: function (msg) {
+                                return msg;
+                            },
+                            info: function (msg) {
+                                return msg;
+                            },
+                            warn: function (msg) {
+                                return msg;
+                            },
+                            error: function (msg) {
+                                return msg;
+                            }
+                        }
+                    
+                        $provide.value('loggingService', mockedLoggingService);
+                    });
+    
+            
+                var loggingService;
+
+                angular.mock.inject(function(_loggingService_) {
+                    loggingService = _loggingService_;
+                });
+            
+                expect(loggingService).toBeDefined();
+                spyOn(loggingService, 'info');
+                loggingService.info();
+                expect(loggingService.info).toHaveBeenCalled();
+                expect(loggingService.info( LOG_MSG )).toEqual(LOG_MSG);
+            });
+        });
+
+
+
+        /*
+        var featuresService; //  scope, ctrl, httpBackend, timeout,
+        
+
+        
 
 
         beforeEach(
 
-            inject(function (_featuresService_) { /*$controller, $rootScope, $httpBackend, $timeout ) {  */
+            inject(function (_featuresService_) { 
 
                 featuresService = _featuresService_;
 
@@ -235,7 +316,8 @@ describe('Angular White Paper Test Suite', function () {
             });
 
         });
-
+*/
+       
     });
 
 });
