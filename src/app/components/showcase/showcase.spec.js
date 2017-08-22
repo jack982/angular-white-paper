@@ -229,10 +229,10 @@ describe('Angular White Paper Test Suite', function () {
                 });
             
                 expect(loggingService).toBeDefined();
-                spyOn(loggingService, 'info');
-                loggingService.info();
-                expect(loggingService.info).toHaveBeenCalled();
-                expect(loggingService.info( LOG_MSG )).toEqual(LOG_MSG);
+                spyOn(loggingService, 'info').and.returnValue( LOG_MSG );
+                var result = loggingService.info( LOG_MSG );
+                expect(loggingService.info).toHaveBeenCalledWith( LOG_MSG );
+                expect( result ).toEqual(LOG_MSG);
             });
         });
 
