@@ -1,4 +1,4 @@
-function notificationDemoCtrl($scope, notificationService) {
+function notificationDemoCtrl(notificationService) {
     'use strict';
 
     var vm = this;
@@ -23,6 +23,6 @@ function notificationDemoCtrl($scope, notificationService) {
 
 }
 
-notificationDemoCtrl.$inject = ['$scope','notificationService'];
+notificationDemoCtrl.$inject = ['notificationService'];
 
 module.exports = notificationDemoCtrl;
