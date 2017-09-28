@@ -53,14 +53,16 @@ var ngAnnotate = require('gulp-ng-annotate');
 
 var paths = {
     test: 'test/',
-    src: 'src/'
+    src: 'src/',
+    build: 'build/',
+    maps: 'build/maps/'
 };
 
 var buildConfig = {
     js: {
         src: 'src/app/app.module.js', // app file entry point
-        mapDir: 'maps/', // dir where to save maps to
-        outputDir: 'build/', // dir to save bundle to
+        mapDir: paths.maps, // dir where to save maps to
+        outputDir: paths.build, // dir to save bundle to
         outputFile: 'bundle.js' // bundle file
     }
 };
