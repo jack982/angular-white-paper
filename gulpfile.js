@@ -18,6 +18,10 @@ var rename = require('rename');
 var source = require('vinyl-source-stream');
 var sourceMaps = require('gulp-sourcemaps');
 var watchify = require('watchify');
+var serve = require('gulp-serve');
+var del = require('del');
+
+var browserSync = require('browser-sync').create();
 
 var ngConfig = require('gulp-ng-config');
 var Server = require('karma').Server;
@@ -54,8 +58,8 @@ var ngAnnotate = require('gulp-ng-annotate');
 var paths = {
     test: 'test/',
     src: 'src/',
-    build: 'build/',
-    maps: 'build/maps/'
+    build: './build/',
+    maps: './maps/'
 };
 
 var buildConfig = {
@@ -67,7 +71,14 @@ var buildConfig = {
     }
 };
 
-function bundle( bundler ) {
+ var bundler = browserify({
+                        entries: [buildConfig.js.src],
+                        cache: {},
+                        packageCache: {},
+                        plugin: [watchify]
+        });
+
+function bundle() {
     bundler
         .bundle()   // start bundle
         .pipe(source(buildConfig.js.outputFile))   // entry point
@@ -79,16 +90,22 @@ function bundle( bundler ) {
         
         .pipe(gulp.dest(buildConfig.js.outputDir))        // Save 'bundle' to build/
         .pipe(livereload());       // Reload browser if relevant
-    ;
 }
+
+gulp.task('clean', function() {
+    return del(['build']);
+});
 
 gulp.task('bundle', ['ng-config'],  function() {
 
-        var bundler = browserify( buildConfig.js.src ); // pass browserify the entry point
+       // var bundler = browserify( buildConfig.js.src ); // pass browserify the entry point
                        // .transform(xxxx)  // chain transformations...
                        // .transform(yyyy)
-                       
-        bundle( bundler );
+       
+
+        bundler.on('update', bundle );
+
+        bundle( ); // Chain other options -- sourcemaps, rename, etc.
 });
 
 gulp.task('ng-config', function() {
@@ -106,10 +123,43 @@ gulp.task('lint', function() {
         .pipe(jshint.reporter('default'));
 });
 
-gulp.task('build', [/*'lint',*/ 'bundle', 'test'], function() {
-
+gulp.task('build', [ /*'lint',*/ 'bundle', 'test'], function() {
 });
 
+
+//gulp.task('watch', function() {
+//  livereload.listen( { 
+//      port: 9090,
+//      server: 'localhost'
+//  });
+//  gulp.watch('./src/app/**/*.*', ['build']);
+//});
+
+
+//gulp.task('serve', ['build'], serve({
+//        root: ['build'],
+//        port: 9090
+//}));
+
+gulp.task('js-watch', ['build'], function(done) {
+    browserSync.reload();
+    done();
+});
+
+gulp.task('serve', ['build'], function() {
+    
+    browserSync.init({
+        server: {
+            baseDir: "./build"
+        },
+        port: 8080,
+        browser: 'chrome'
+    });
+
+  //  gulp.watch("app/scss/*.scss", ['sass']);
+    gulp.watch("./src/app/**/*.*", ['js-watch']); //.on('change', browserSync.reload);
+  //  gulp.watch("./src/app/**/*.*").on('change', browserSync.reload);
+});
 // gulp.task('browserify', function() {
 // //    var b = browserify( {
 // //         entries: './src/app/app.module.js',

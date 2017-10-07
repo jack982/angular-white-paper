@@ -47281,7 +47281,7 @@ module.exports = config;
 
 },{}],16:[function(require,module,exports){
 angular.module("app.constants", [])
-.constant("APP_CONSTANTS", {"APP_VERSION":"0.0.1","DEBUG_ENABLED":"true","APP_SECRET":"s3cr3t!","API_DEMO_URL":"https://httpbin.org","APP_LOCAL_TOKEN_KEY":"yourTokenKey"});
+.constant("APP_CONSTANTS", {"APP_VERSION":"0.0.1","DEBUG_ENABLED":false,"APP_LOCAL_TOKEN_KEY":"yourTokenKey"});
 
 },{}],17:[function(require,module,exports){
 var appCtrl = function(authService, AUTH_EVENTS, APP_CONSTANTS) {
