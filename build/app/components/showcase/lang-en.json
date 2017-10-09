@@ -1,0 +1,12 @@
+{
+    "showcase": {
+        "title": "Showcase",
+        "form": {
+            "item": {
+                "label": "Add Item"
+            },
+            "btnAdd" : "Add"
+        }
+    }
+
+}

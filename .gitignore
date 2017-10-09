@@ -3,6 +3,7 @@ bower_components
 test/coverage
 test/browserified
 public
+build
 src/app/app.constants.js
 config/*
 !config/config.js

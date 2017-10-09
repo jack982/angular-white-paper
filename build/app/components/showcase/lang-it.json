@@ -1,0 +1,12 @@
+{
+    "showcase": {
+        "title": "Vetrina",
+        "form": {
+            "item": {
+                "label": "Aggiungi elemento"
+            },
+            "btnAdd" : "Aggiungi"
+        }
+    }
+
+}

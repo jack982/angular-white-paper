@@ -1,0 +1,14 @@
+{
+    "auth-demo": {
+      "protected": {
+        "title": "Protected page"
+      },
+      "protectedAdmin": {
+        "title": "Protected Admin page"
+      },
+      "login": {
+        "title": "Login page"
+      }
+    }
+
+}
