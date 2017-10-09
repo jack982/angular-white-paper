@@ -85,8 +85,8 @@ var buildConfig = {
  var bundler = browserify({
                         entries: [buildConfig.js.src],
                         cache: {},
-                        packageCache: {},
-                        plugin: [watchify]
+                        packageCache: {} //,
+            //            plugin: [watchify]
         });
 
 function bundle() {
@@ -101,13 +101,14 @@ function bundle() {
         
         .pipe(gulp.dest(buildConfig.js.outputDir))        // Save 'bundle' to build/
         .pipe(livereload());       // Reload browser if relevant
+     
 }
 
 gulp.task('clean', function() {
     return del(['build']);
 });
 
-gulp.task('bundle', ['ng-config'],  function() {
+gulp.task('bundle', ['ng-config'],  function(done) {
 
        // var bundler = browserify( buildConfig.js.src ); // pass browserify the entry point
                        // .transform(xxxx)  // chain transformations...
@@ -117,6 +118,8 @@ gulp.task('bundle', ['ng-config'],  function() {
         bundler.on('update', bundle );
 
         bundle( ); // Chain other options -- sourcemaps, rename, etc.
+
+        done();
 });
 
 gulp.task('ng-config', function() {
@@ -134,30 +137,14 @@ gulp.task('lint', function() {
         .pipe(jshint.reporter('default'));
 });
 
-gulp.task('build', [ 'clean', /*'lint',*/ 'bundle', 'test'], function() {
-});
-
-
-//gulp.task('watch', function() {
-//  livereload.listen( { 
-//      port: 9090,
-//      server: 'localhost'
-//  });
-//  gulp.watch('./src/app/**/*.*', ['build']);
-//});
-
-
-//gulp.task('serve', ['build'], serve({
-//        root: ['build'],
-//        port: 9090
-//}));
+gulp.task('build', [ /*'lint',*/ 'bundle',  'test']);
 
 gulp.task('js-watch', ['build'], function(done) {
     browserSync.reload();
     done();
 });
 
-gulp.task('serve', ['build' , 'sass', 'static' ], function() {
+gulp.task('serve', ['clean', 'build' , 'sass', 'static' ], function() {
     
     browserSync.init({
         server: {
@@ -250,11 +237,13 @@ gulp.task('serve', ['build' , 'sass', 'static' ], function() {
            .pipe(browserSync.stream());
  });
 
- gulp.task('static', function() {
+ gulp.task('static', function(done) {
        gulp.src(['./src/**/*.html', './src/**/*.*', './src/**/*.css', '!./src/**/*.scss'])
   //       .pipe(cachebust.references())
          .pipe(gulp.dest('./build'))
- 		.pipe(browserSync.stream())
+         .pipe(browserSync.stream());
+
+         done();
  });
 
 gulp.task('vendor', function() {
