@@ -104,8 +104,10 @@ function bundle() {
      
 }
 
-gulp.task('clean', function() {
-    return del(['build']);
+gulp.task('clean', function( done ) {
+    //return
+     del.sync(['build/**/*']);
+     done();
 });
 
 gulp.task('bundle', ['ng-config'],  function(done) {
@@ -144,7 +146,7 @@ gulp.task('js-watch', ['build'], function(done) {
     done();
 });
 
-gulp.task('serve', ['clean', 'build' , 'sass', 'static' ], function() {
+gulp.task('serve', ['clean', 'build' , 'sass', 'resources' ], function() {
     
     browserSync.init({
         server: {
@@ -156,7 +158,7 @@ gulp.task('serve', ['clean', 'build' , 'sass', 'static' ], function() {
 
     gulp.watch("src/assets/css/*.scss", ['sass']);
     gulp.watch('src/*.html', ['static']);
-    gulp.watch('src/assets/**/*.*', ['static']);
+    gulp.watch('src/assets/**/*.*', ['assets']);
     gulp.watch("src/app/**/*.*", ['js-watch']); //.on('change', browserSync.reload);
   //  gulp.watch("./src/app/**/*.*").on('change', browserSync.reload);
 });
@@ -237,8 +239,19 @@ gulp.task('serve', ['clean', 'build' , 'sass', 'static' ], function() {
            .pipe(browserSync.stream());
  });
 
- gulp.task('static', function(done) {
-       gulp.src(['./src/**/*.html', './src/**/*.*', './src/**/*.css', '!./src/**/*.scss'])
+
+ gulp.task('resources', ['static', 'assets']);
+ 
+
+ gulp.task('static', function(done) { // './src/**/*.*',
+
+        var sources = [
+                'src/**/*.html',
+                'src/**/*.json'
+        //        '!./src/**/*.scss'
+        ];
+
+       gulp.src(sources)
   //       .pipe(cachebust.references())
          .pipe(gulp.dest('./build'))
          .pipe(browserSync.stream());
@@ -246,8 +259,24 @@ gulp.task('serve', ['clean', 'build' , 'sass', 'static' ], function() {
          done();
  });
 
-gulp.task('vendor', function() {
+gulp.task('assets', function() {
 
+    var sources = [
+        './css/**/*.*',
+        './flag-icon-css/**/*.*',
+        './font-awesome/**/*.*',
+        './fonts/**/*.*',
+        './img/**/*.*',
+        './js/**/*.*'
+    ];
+
+  return  gulp.src(sources, { base: './src/assets', cwd: 'src/assets/**' })
+    //       .pipe(cachebust.references())
+           .pipe(gulp.dest('build/assets'))
+           .pipe(browserSync.stream());
+  
+
+    //done();
 });
 
 
