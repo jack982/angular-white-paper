@@ -17,7 +17,7 @@ That's it! Now visit [http://localhost:8080](http://localhost:8080) and enjoy.
 
 A demo app that
 
-  - uses Browserify to build the client code from the `src` to the `public` folder
+  - uses Browserify to build the client code from the `src` to the `build` folder
   - uses **angular-ui-router** for the routing
   - uses **angular-translate** for pain-free i18n stuffs
   - uses **dotenv** to generate an Angular Module containing all your env variables as constants

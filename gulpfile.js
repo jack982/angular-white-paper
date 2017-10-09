@@ -20,6 +20,7 @@ var sourceMaps = require('gulp-sourcemaps');
 var watchify = require('watchify');
 var serve = require('gulp-serve');
 var del = require('del');
+var sass = require('gulp-sass');
 
 var browserSync = require('browser-sync').create();
 
@@ -44,7 +45,7 @@ var minify = require('gulp-minify');
 var uglify = require('gulp-uglify');
 
 var autoprefixer = require('gulp-autoprefixer');
-var sass = require('gulp-sass');
+
 var ngAnnotate = require('gulp-ng-annotate');
 //var ngAnnotate = require('browserify-ngannotate');
 */
@@ -59,7 +60,17 @@ var paths = {
     test: 'test/',
     src: 'src/',
     build: './build/',
-    maps: './maps/'
+    maps: './maps/',
+    source : {
+        test: 'test/',
+        path: 'src/',
+        css: 'src/assets/css/'
+    },
+    dest : {
+        path: './build',
+        css: 'build/assets/css/',
+        maps: './maps'
+    }
 };
 
 var buildConfig = {
@@ -146,7 +157,7 @@ gulp.task('js-watch', ['build'], function(done) {
     done();
 });
 
-gulp.task('serve', ['build'], function() {
+gulp.task('serve', ['build' , 'sass', 'static' ], function() {
     
     browserSync.init({
         server: {
@@ -156,8 +167,9 @@ gulp.task('serve', ['build'], function() {
         browser: 'chrome'
     });
 
-  //  gulp.watch("app/scss/*.scss", ['sass']);
-    gulp.watch("./src/app/**/*.*", ['js-watch']); //.on('change', browserSync.reload);
+    gulp.watch("src/assets/css/*.scss", ['sass']);
+    gulp.watch('src/**/*.html', ['static']);
+    gulp.watch("src/app/**/*.*", ['js-watch']); //.on('change', browserSync.reload);
   //  gulp.watch("./src/app/**/*.*").on('change', browserSync.reload);
 });
 // gulp.task('browserify', function() {
@@ -225,16 +237,24 @@ gulp.task('serve', ['build'], function() {
 
  gulp.task('test', ['karma']);
 
-// gulp.task('sass', function() {
-//   gulp.src('./src/assets/css/*.scss')
+ gulp.task('sass', function() {
+   return gulp.src( paths.source.css + '*.scss')
 //   // The onerror handler prevents Gulp from crashing when you make a mistake in your SASS
-//   .pipe(sass({onError: function(e) { console.log(e); } }))
+           .pipe(sass({onError: function(e) { console.log(e); } }))
 //   .pipe(cachebust.resources())
 //   // Optionally add autoprefixer
 //   //.pipe(autoprefixer("last 2 versions", "> 1%", "ie 8"))
 //   // These last two should look familiar now :)
-//   .pipe(gulp.dest('./public/assets/css/'));
-// });
+           .pipe(gulp.dest( paths.dest.css ))
+           .pipe(browserSync.stream());
+ });
+
+ gulp.task('static', function() {
+    // return gulp.src( ['src/**/*.html', 'src/index.html'] )
+    return gulp.src('src/index.html')
+        .pipe(gulp.dest( 'build/index.html' )
+        .pipe( browserSync.stream() ));
+ });
 
 
 
