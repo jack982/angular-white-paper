@@ -266,7 +266,7 @@ gulp.task('assets', function() {
         './flag-icon-css/**/*.*',
         './font-awesome/**/*.*',
         './fonts/**/*.*',
-        './img/**/*.*',
+        './images/**/*.*',
         './js/**/*.*'
     ];
 
