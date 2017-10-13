@@ -15,7 +15,7 @@ var features = function () {
         {
           name: 'Browser-Sync',
           version: '1.0',
-          url:  'assets/images/logo/BrowserSync.jpg'
+          url:  'assets/images/logo/BrowserSync.png'
         },
         {
           name: 'FontAwesome',
