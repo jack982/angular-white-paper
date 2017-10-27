@@ -1,6 +1,7 @@
 angular = require('angular');
 
 // app dependencies
+//require('angular-mocks');
 require('angular-ui-router');
 require('angular-cookies');
 require('angular-translate');
