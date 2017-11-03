@@ -11,8 +11,7 @@ function showcase(featuresService) {
     vm.addItem = function () {
         featuresService.add(vm.item);
         vm.item = null;
-    };
-
+    }; 
 
 }
 

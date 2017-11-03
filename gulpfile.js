@@ -89,7 +89,8 @@ var buildConfig = {
             //            plugin: [watchify]
         });
 
-function bundle() {
+
+        function bundle() {
     bundler
         .bundle()   // start bundle
         .pipe(source(buildConfig.js.outputFile))   // entry point
@@ -110,19 +111,7 @@ gulp.task('clean', function( done ) {
      done();
 });
 
-gulp.task('bundle', ['ng-config'],  function(done) {
-
-       // var bundler = browserify( buildConfig.js.src ); // pass browserify the entry point
-                       // .transform(xxxx)  // chain transformations...
-                       // .transform(yyyy)
-       
-
-        bundler.on('update', bundle );
-
-        bundle( ); // Chain other options -- sourcemaps, rename, etc.
-
-        done();
-});
+gulp.task('bundle', [ 'clean', /*'lint',*/ 'ng-config' ]);
 
 gulp.task('ng-config', function() {
   var json = JSON.stringify(config[ENV]);
@@ -134,19 +123,27 @@ gulp.task('ng-config', function() {
 
 
 gulp.task('lint', function() {
-    gulp.src('./src/app/**/*.js')
+   return gulp.src('./src/app/**/*.js')
         .pipe(jshint())
         .pipe(jshint.reporter('default'));
 });
 
-gulp.task('build', [ /*'lint',*/ 'bundle',  'test']);
+gulp.task('build', [ /*'lint',*/ 'bundle' , 'resources'/* ,   'test' */], function(done) {
+      // var bundler = browserify( buildConfig.js.src ); // pass browserify the entry point
+                       // .transform(xxxx)  // chain transformations...
+                       // .transform(yyyy)
+       
+    bundler.on('update', bundle );
+     bundle( ); // Chain other options -- sourcemaps, rename, etc.
+     done();
+});
 
 gulp.task('js-watch', ['build'], function(done) {
     browserSync.reload();
     done();
 });
 
-gulp.task('serve', ['clean', 'build' , 'sass', 'resources' ], function() {
+gulp.task('serve', [ /*'clean',*/ 'build' ,/* 'sass',*/ 'resources' ], function() {
     
     browserSync.init({
         server: {
@@ -198,7 +195,7 @@ gulp.task('serve', ['clean', 'build' , 'sass', 'resources' ], function() {
 // //  .pipe(gulp.dest(paths.test + 'browserified'));
 // //});
 
- gulp.task('karma' , function (done) {
+ gulp.task('test' , ['build'], function (done) {
 
      new Server({
          configFile: __dirname + '/test/karma.conf.js',
@@ -225,7 +222,7 @@ gulp.task('serve', ['clean', 'build' , 'sass', 'resources' ], function() {
 
  });
 
- gulp.task('test', ['karma']);
+// gulp.task('test', ['karma']);
 
  gulp.task('sass', function() {
    return gulp.src( paths.source.css + '*.scss')
@@ -240,7 +237,7 @@ gulp.task('serve', ['clean', 'build' , 'sass', 'resources' ], function() {
  });
 
 
- gulp.task('resources', ['static', 'assets']);
+ gulp.task('resources', [ 'sass', 'static', 'assets' ]);
  
 
  gulp.task('static', function(done) { // './src/**/*.*',
