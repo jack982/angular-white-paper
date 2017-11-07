@@ -1,345 +1,157 @@
-var ENV = process.env.APP_ENV || 'development';
-
-if( ENV === 'development' ) {
-    require('dotenv').config();
-}
-
-var package = require('./package.json');
-
-var b2v = require('buffer-to-vinyl');
+var gulp = require('gulp');
+var sass = require('gulp-sass');
+var browserSync = require('browser-sync').create();
 var browserify = require('browserify');
 var buffer = require('vinyl-buffer');
-var gulp = require('gulp');
-var gutil = require('gulp-util');
-var jshint = require('gulp-jshint');
-var livereload = require('gulp-livereload');
-var merge = require('merge');
-var rename = require('rename');
 var source = require('vinyl-source-stream');
 var sourceMaps = require('gulp-sourcemaps');
-var watchify = require('watchify');
-var serve = require('gulp-serve');
+var useref = require('gulp-useref');
+var gulpIf = require('gulp-if');
+var cssnano = require('gulp-cssnano');
+var imagemin = require('gulp-imagemin');
+//var  = require('gulp-');
 var del = require('del');
-var sass = require('gulp-sass');
-
-var browserSync = require('browser-sync').create();
-
-var ngConfig = require('gulp-ng-config');
-var Server = require('karma').Server;
-
-// let's load our ENV variables
-var config = require('./config/config.js');
-gutil.log('-->CURRENT ENVIRONMENT: ' + ENV );
+var runSequence = require('run-sequence');
 
 
+/* TASK TEMPLATE
 
-/*
-var browserSync = require('browser-sync').create();
+gulp.task('taskName', function() {
+   return gulp.src('source-file')
+    .pipe(aGulpPlugin())
+    .pipe(gulp.dest('destination'));
+});
 
-//var karma = require('gulp-karma');
-var glob = require('glob');
-var fs = require('fs');
-var flatten = require('gulp-flatten');
-var concat = require('gulp-concat');
-var minify = require('gulp-minify');
-var uglify = require('gulp-uglify');
+gulp.watch('files-to-watch', ['tasks', 'to', 'run']);
 
-var autoprefixer = require('gulp-autoprefixer');
-
-var ngAnnotate = require('gulp-ng-annotate');
-//var ngAnnotate = require('browserify-ngannotate');
 */
 
+var CONFIG = {
+    dest: {
 
-//var Cachebust = require('gulp-cachebust');
-//var cachebust = new Cachebust();
-
-
-
-var paths = {
-    test: 'test/',
-    src: 'src/',
-    build: './build/',
-    maps: './maps/',
-    source : {
-        test: 'test/',
-        path: 'src/',
-        css: 'src/assets/css/'
     },
-    dest : {
-        path: './build',
-        css: 'build/assets/css/',
-        maps: './maps'
-    }
-};
-
-var buildConfig = {
-    js: {
-        src: 'src/app/app.module.js', // app file entry point
-        mapDir: paths.maps, // dir where to save maps to
-        outputDir: paths.build, // dir to save bundle to
-        outputFile: 'bundle.js' // bundle file
-    }
-};
-
- var bundler = browserify({
-                        entries: [buildConfig.js.src],
-                        cache: {},
-                        packageCache: {} //,
-            //            plugin: [watchify]
-        });
-
-
-        function bundle() {
-    bundler
-        .bundle()   // start bundle
-        .pipe(source(buildConfig.js.outputFile))   // entry point
-        .pipe(buffer())   // Convert to gulp pipeline                 
-   //     .pipe(rename(buildConfig.js.outputFile))    // Rename output from 'app.module.js'
-        
-        .pipe(sourceMaps.init({ loadMaps : true }))  // Strip inline source maps
-        .pipe(sourceMaps.write(buildConfig.js.mapDir))    // Save source maps to their own directory
-        
-        .pipe(gulp.dest(buildConfig.js.outputDir))        // Save 'bundle' to build/
-        .pipe(livereload());       // Reload browser if relevant
-     
+    browserSync: {
+        port: 8000,
+        browser: 'chrome'
+    },
+    assets: [
+        'js/**/*',
+        'flag-icon-css/**/*.*',
+        'font-awesome/**/*.*',
+    ]
 }
 
-gulp.task('clean', function( done ) {
-    //return
-     del.sync(['build/**/*']);
-     done();
-});
 
-gulp.task('bundle', [ 'clean', /*'lint',*/ 'ng-config' ]);
+gulp.task('sass', function () {
+    return gulp.src('src/assets/scss/**/*.scss')
+        .pipe(sass({ onError: function (e) { console.log(e); } }))
+        .pipe(gulp.dest('build/assets/css'))
+        .pipe(browserSync.reload({
+            stream: true
+        }))
+})
 
-gulp.task('ng-config', function() {
-  var json = JSON.stringify(config[ENV]);
+gulp.task('watch', ['browserSync', 'sass', 'browserify'], function () {
+    gulp.watch('src/assets/scss/**/*.scss', ['sass']);
+    gulp.watch('src/*.html', browserSync.reload);
+    //   gulp.watch('src/**/*.js', browserSync.reload);
+    gulp.watch('src/**/*.js', ['browserify'], function () {
 
-  return b2v.stream(new Buffer(json), 'app.constants.js')
-    .pipe(ngConfig('app.constants', { constants: config[ENV], createModule:true }))
-    .pipe(gulp.dest('./src/app'));
-});
-
-
-gulp.task('lint', function() {
-   return gulp.src('./src/app/**/*.js')
-        .pipe(jshint())
-        .pipe(jshint.reporter('default'));
-});
-
-gulp.task('build', [ /*'lint',*/ 'bundle' , 'resources'/* ,   'test' */], function(done) {
-      // var bundler = browserify( buildConfig.js.src ); // pass browserify the entry point
-                       // .transform(xxxx)  // chain transformations...
-                       // .transform(yyyy)
-       
-    bundler.on('update', bundle );
-     bundle( ); // Chain other options -- sourcemaps, rename, etc.
-     done();
-});
-
-gulp.task('js-watch', ['build'], function(done) {
-    browserSync.reload();
-    done();
-});
-
-gulp.task('serve', [ /*'clean',*/ 'build' ,/* 'sass',*/ 'resources' ], function() {
-    
-    browserSync.init({
-        server: {
-            baseDir: "./build"
-        },
-        port: 8080,
-        browser: 'chrome'
+        browserSync.reload({ stream: true });
     });
 
-    gulp.watch("src/assets/css/*.scss", ['sass']);
-    gulp.watch('src/*.html', ['static']);
-    gulp.watch('src/assets/**/*.*', ['assets']);
-    gulp.watch("src/app/**/*.*", ['js-watch']); //.on('change', browserSync.reload);
-  //  gulp.watch("./src/app/**/*.*").on('change', browserSync.reload);
+})
+
+gulp.task('browserSync', function () {
+    browserSync.init({
+        server: {
+            baseDir: 'build'
+        }/*,
+      port: CONFIG.browserSync.port,
+      browser: CONFIG.browserSync.browser
+      */
+    })
+})
+
+var bundler = null;
+
+function bundle() {
+    bundler
+        .bundle()   // start bundle
+        .pipe(source('bundle.js'))   // entry point
+        .pipe(buffer())   // Convert to gulp pipeline                 
+        //     .pipe(rename(buildConfig.js.outputFile))    // Rename output from 'app.module.js'
+
+        .pipe(sourceMaps.init({ loadMaps: true }))  // Strip inline source maps
+        .pipe(sourceMaps.write('./maps'))    // Save source maps to their own directory
+
+        .pipe(gulp.dest('./build'));        // Save 'bundle' to build/
+    //  .pipe(livereload());       // Reload browser if relevant
+}
+
+gulp.task('browserify', function (done) {
+    bundler = browserify({
+        entries: ['src/app/app.module.js'],
+        cache: {},
+        package: {} //,
+        //plugin: [watchify]
+    });
+
+    bundler.on('update', bundle);
+
+    bundle();
+
+    done();
+
+})
+
+gulp.task('useref', function () {
+    return gulp.src('src/*.html')
+        .pipe(useref())
+        // Minifies only if it's a CSS file
+        .pipe(gulpIf('*.css', cssnano()))
+        .pipe(gulp.dest('build'))
 });
-// gulp.task('browserify', function() {
-// //    var b = browserify( {
-// //         entries: './src/app/app.module.js',
-// //        debug: true,
-// //       // paths: ['./js/controllers', './js/services', './js/directives'],
-// //        transform: [ngAnnotate]
-// //    });
-//   return browserify('./src/app/app.module.js')
-//           .bundle()
-//           .pipe( source('main.js') )
-//             .pipe(ngAnnotate())
-//           .pipe(buffer())
-//         //  .pipe(cachebust.resources())
-//         //  .pipe( uglify() )
-//         //  .pipe( minify( {
-//         //        ignoreFiles: '*.spec.js'
-//         //   }))
-//           .pipe( gulp.dest('./public/') );
 
+gulp.task('images', function () {
+    return gulp.src('src/assets/images/**/*.+(png|jpg|gif|svg)')
+        //.pipe((imagemin()))
+        .pipe(imagemin())
+        .pipe(gulp.dest('build/assets/images'))
+});
 
-// });
+gulp.task('fonts', function () {
+    return gulp.src('src/assets/fonts/**/*')
+        .pipe(gulp.dest('build/assets/fonts'));
+})
 
-// //
-// //gulp.task('browserify-tests', function () {
-// //  var bundler = browserify({debug: true});
-// //  glob
-// //  .sync(paths.src + '**/*.spec.js')
-// //  .forEach(function (file) {
-// //    bundler.add(file);
-// //  });
-// //  return bundler
-// //  .bundle()
-// //  .pipe(source('browserified_tests.js'))
-// //  .pipe(gulp.dest(paths.test + 'browserified'));
-// //});
+gulp.task('clean:build', function () {
+    return del.sync('build');
+})
 
- gulp.task('test' , ['build'], function (done) {
+gulp.task('cache:clear', function (callback) {
+    // return cache.clearAll(callback);
+})
 
-     new Server({
-         configFile: __dirname + '/test/karma.conf.js',
-         singleRun: true
-     }, function() {
-        done()
-     }).start();
+gulp.task('build', function (callback) {
+    runSequence('clean:build', ['sass', 'useref', 'images', 'fonts', 'assets', 'partials', 'browserify'], callback);
+})
 
-     
-
-// //    var testFiles = [
-// //        './src/**/*.spec.js'
-// //    ];
-// //
-// //    return gulp.src(testFiles)
-// //        .pipe(karma({
-// //            configFile: './test/karma.conf.js',
-// //            action: 'run'
-// //    }))
-// //    .on('error', function(err) {
-// //        console.log('karma tests failed: ' + err);
-// //        throw err;
-// //    });
-
- });
-
-// gulp.task('test', ['karma']);
-
- gulp.task('sass', function() {
-   return gulp.src( paths.source.css + '*.scss')
-//   // The onerror handler prevents Gulp from crashing when you make a mistake in your SASS
-           .pipe(sass({onError: function(e) { console.log(e); } }))
-//   .pipe(cachebust.resources())
-//   // Optionally add autoprefixer
-//   //.pipe(autoprefixer("last 2 versions", "> 1%", "ie 8"))
-//   // These last two should look familiar now :)
-           .pipe(gulp.dest( paths.dest.css ))
-           .pipe(browserSync.stream());
- });
-
-
- gulp.task('resources', [ 'sass', 'static', 'assets' ]);
- 
-
- gulp.task('static', function(done) { // './src/**/*.*',
-
-        var sources = [
-                'src/**/*.html',
-                'src/**/*.json'
-        //        '!./src/**/*.scss'
-        ];
-
-       gulp.src(sources)
-  //       .pipe(cachebust.references())
-         .pipe(gulp.dest('./build'))
-         .pipe(browserSync.stream());
-
-         done();
- });
+gulp.task('default', function (callback) {
+    runSequence(['sass', 'partials', 'browserify', 'browserSync', 'watch'], callback);
+})
 
 gulp.task('assets', function() {
+    return gulp.src(CONFIG.assets, { base: 'src/assets', cwd: 'src/assets/**' })
+        .pipe(gulp.dest('build/assets'));
+})
 
+gulp.task('partials', function() {
     var sources = [
-        './css/**/*.*',
-        './flag-icon-css/**/*.*',
-        './font-awesome/**/*.*',
-        './fonts/**/*.*',
-        './images/**/*.*',
-        './js/**/*.*'
+                'src/**/*.html',
+                'src/**/*.json',
+                '!src/index.html'
     ];
-
-  return  gulp.src(sources, { base: './src/assets', cwd: 'src/assets/**' })
-    //       .pipe(cachebust.references())
-           .pipe(gulp.dest('build/assets'))
-           .pipe(browserSync.stream());
-  
-
-    //done();
-});
-
-
-// gulp.task('serve', ['build'], function () {
-//   browserSync.init({
-//     server: {
-//       baseDir: "./public",
-//       // The key is the url to match
-//       // The value is which folder to serve (relative to your current working directory)
-//       routes: {
-//         //"/bower_components": "bower_components",
-//         "/node_modules": "node_modules"
-//       }
-//     },
-//     port: 8080,
-//     ui: {
-//         port: 8081,
-//         weinre: {
-//             port: 9090
-//         }
-//     },
-//     browser: "chrome"
-//   });
-// });
-
-// gulp.task('copy', ['browserify', 'sass'], function() { //'ng-config', 'assets', 'i18n'], function() {
-//     gulp.src(['./src/**/*.html', './src/**/*.*', './src/**/*.css', '!./src/**/*.scss'])
-//         .pipe(cachebust.references())
-//         .pipe(gulp.dest('./public'))
-// 		.pipe(browserSync.stream())
-// });
-
-// gulp.task('flags', function() { //'ng-config', 'assets', 'i18n'], function() {
-//     gulp.src(['./src/assets/flag-icon-css/**/*.svg'])
-//         .pipe(cachebust.references())
-//         .pipe(gulp.dest('./public/assets/flag-icon-css'))
-// 		.pipe(browserSync.stream())
-// });
-
-// gulp.task('i18n', function() {
-//     gulp.src(['./src/app/i18n/**/*.json'])
-//         .pipe(gulp.dest('./public/i18n/'))
-//         .pipe(browserSync.stream())
-// });
-
-// gulp.task('scripts', function() {
-//    gulp.src('./src/assets/js/*.js')
-//     .pipe(concat('vendor.min.js'))
-//    .pipe(cachebust.resources())
-//     .pipe(gulp.dest('./public/assets/js'));
-// });
-
-// gulp.task('build', [ /*'lint',*/ 'ng-config', 'sass', 'copy', 'i18n', 'scripts', 'test' ]/*, function() {
-//     return gulp.src('index.html')
-//         .pipe(cachebust.references())
-//         .pipe(gulp.dest('./public'))
-// }*/);
-
-
-
-// gulp.task('watch', ['build'], function (done) {
-//     browserSync.reload();
-//     done();
-// });
-
-// gulp.task('default', ['serve'], function(){
-//     gulp.watch(['./src/**/*.html', './src/**/*.js', './src/**/*.css', './src/**/*.json'], ['watch']);
-//     //gulp.watch("./public/**/*.*").on('change', browserSync.reload);
-// });
+    return gulp.src( sources )
+        .pipe(gulp.dest('build'));
+})

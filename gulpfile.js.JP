@@ -1,0 +1,208 @@
+var ENV = process.env.APP_ENV || 'development';
+
+if( ENV === 'development' ) {
+    require('dotenv').config();
+}
+
+var package = require('./package.json');
+
+var b2v = require('buffer-to-vinyl');
+var browserify = require('browserify');
+var buffer = require('vinyl-buffer');
+var gulp = require('gulp');
+var gutil = require('gulp-util');
+var jshint = require('gulp-jshint');
+var livereload = require('gulp-livereload');
+var merge = require('merge');
+var rename = require('rename');
+var source = require('vinyl-source-stream');
+var sourceMaps = require('gulp-sourcemaps');
+var watchify = require('watchify');
+var serve = require('gulp-serve');
+var del = require('del');
+var sass = require('gulp-sass');
+
+var browserSync = require('browser-sync').create();
+
+var ngConfig = require('gulp-ng-config');
+var Server = require('karma').Server;
+
+// let's load our ENV variables
+var config = require('./config/config.js');
+gutil.log('-->CURRENT ENVIRONMENT: ' + ENV );
+
+
+var paths = {
+    test: 'test/',
+    src: 'src/',
+    build: './build/',
+    maps: './maps/',
+    source : {
+        test: 'test/',
+        path: 'src/',
+        css: 'src/assets/css/'
+    },
+    dest : {
+        path: './build',
+        css: 'build/assets/css/',
+        maps: './maps'
+    }
+};
+
+var buildConfig = {
+    js: {
+        src: 'src/app/app.module.js', // app file entry point
+        mapDir: paths.maps, // dir where to save maps to
+        outputDir: paths.build, // dir to save bundle to
+        outputFile: 'bundle.js' // bundle file
+    }
+};
+
+ var bundler = browserify({
+                        entries: [buildConfig.js.src],
+                        cache: {},
+                        packageCache: {} //,
+            //            plugin: [watchify]
+        });
+
+
+function bundle() {
+    bundler
+        .bundle()   // start bundle
+        .pipe(source(buildConfig.js.outputFile))   // entry point
+        .pipe(buffer())   // Convert to gulp pipeline                 
+   //     .pipe(rename(buildConfig.js.outputFile))    // Rename output from 'app.module.js'
+        
+        .pipe(sourceMaps.init({ loadMaps : true }))  // Strip inline source maps
+        .pipe(sourceMaps.write(buildConfig.js.mapDir))    // Save source maps to their own directory
+        
+        .pipe(gulp.dest(buildConfig.js.outputDir))        // Save 'bundle' to build/
+        .pipe(livereload());       // Reload browser if relevant
+     
+}
+
+gulp.task('clean', function( done ) {
+    //return
+     del.sync(['build/**/*']);
+     done();
+});
+
+gulp.task('bundle', [ 'clean', /*'lint',*/ 'ng-config' ]);
+
+gulp.task('ng-config', function() {
+  var json = JSON.stringify(config[ENV]);
+
+  return b2v.stream(new Buffer(json), 'app.constants.js')
+    .pipe(ngConfig('app.constants', { constants: config[ENV], createModule:true }))
+    .pipe(gulp.dest('./src/app'));
+});
+
+
+gulp.task('lint', function() {
+   return gulp.src('./src/app/**/*.js')
+        .pipe(jshint())
+        .pipe(jshint.reporter('default'));
+});
+
+
+gulp.task('js-watch', ['build'], function(done) {
+    browserSync.reload();
+    done();
+});
+
+gulp.task('serve', [ 'build' , 'resources' ], function() {
+    
+    browserSync.init({
+        server: {
+            baseDir: "./build"
+        },
+        port: 8080,
+        browser: 'chrome'
+    });
+
+    gulp.watch("src/assets/css/*.scss", ['sass']);
+    gulp.watch('src/*.html', ['static']);
+    gulp.watch('src/assets/**/*.*', ['assets']);
+    gulp.watch("src/app/**/*.*", ['js-watch']); //.on('change', browserSync.reload);
+  //  gulp.watch("./src/app/**/*.*").on('change', browserSync.reload);
+});
+
+
+ gulp.task('resources', [ 'sass', 'static', 'assets' ]);
+
+
+ gulp.task('sass', function() {
+    return gulp.src( paths.source.css + '*.scss')
+ //   // The onerror handler prevents Gulp from crashing when you make a mistake in your SASS
+            .pipe(sass({onError: function(e) { console.log(e); } }))
+ //   .pipe(cachebust.resources())
+ //   // Optionally add autoprefixer
+ //   //.pipe(autoprefixer("last 2 versions", "> 1%", "ie 8"))
+ //   // These last two should look familiar now :)
+            .pipe(gulp.dest( paths.dest.css ))
+            .pipe(browserSync.stream());
+  });
+ 
+
+
+
+ gulp.task('static', function(done) { // './src/**/*.*',
+
+        var sources = [
+                'src/**/*.html',
+                'src/**/*.json'
+        //        '!./src/**/*.scss'
+        ];
+
+       gulp.src(sources)
+  //       .pipe(cachebust.references())
+         .pipe(gulp.dest('./build'))
+         .pipe(browserSync.stream());
+
+         done();
+ });
+
+gulp.task('assets', function() {
+
+    var sources = [
+        './css/**/*.*',
+        './flag-icon-css/**/*.*',
+        './font-awesome/**/*.*',
+        './fonts/**/*.*',
+        './images/**/*.*',
+        './js/**/*.*'
+    ];
+
+  return  gulp.src(sources, { base: './src/assets', cwd: 'src/assets/**' })
+    //       .pipe(cachebust.references())
+           .pipe(gulp.dest('build/assets'))
+           .pipe(browserSync.stream());
+  
+
+    //done();
+});
+
+
+
+gulp.task('build', [ /*'lint',*/ 'bundle' , 'resources'/* ,   'test' */], function(done) {
+    // var bundler = browserify( buildConfig.js.src ); // pass browserify the entry point
+                     // .transform(xxxx)  // chain transformations...
+                     // .transform(yyyy)
+     
+  bundler.on('update', bundle );
+   bundle( ); // Chain other options -- sourcemaps, rename, etc.
+   done();
+});
+
+
+gulp.task('test' , ['build'], function (done) {
+    
+         new Server({
+             configFile: __dirname + '/test/karma.conf.js',
+             singleRun: true
+         }, function() {
+            done()
+         }).start();
+    
+     });
+
