@@ -38,7 +38,15 @@ var CONFIG = {
         'js/**/*',
         'flag-icon-css/**/*.*',
         'font-awesome/**/*.*',
-    ]
+        'css/**/*.css'
+    ],
+    partials: {
+        sources : [
+            'src/**/*.html',
+            'src/**/*.json',
+            '!src/index.html'
+        ]
+    }
 }
 
 
@@ -51,16 +59,6 @@ gulp.task('sass', function () {
         }))
 })
 
-gulp.task('watch', ['browserSync', 'sass', 'browserify'], function () {
-    gulp.watch('src/assets/scss/**/*.scss', ['sass']);
-    gulp.watch('src/*.html', browserSync.reload);
-    //   gulp.watch('src/**/*.js', browserSync.reload);
-    gulp.watch('src/**/*.js', ['browserify'], function () {
-
-        browserSync.reload({ stream: true });
-    });
-
-})
 
 gulp.task('browserSync', function () {
     browserSync.init({
@@ -133,14 +131,6 @@ gulp.task('cache:clear', function (callback) {
     // return cache.clearAll(callback);
 })
 
-gulp.task('build', function (callback) {
-    runSequence('clean:build', ['sass', 'useref', 'images', 'fonts', 'assets', 'partials', 'browserify'], callback);
-})
-
-gulp.task('default', function (callback) {
-    runSequence(['sass', 'partials', 'browserify', 'browserSync', 'watch'], callback);
-})
-
 gulp.task('assets', function() {
     return gulp.src(CONFIG.assets, { base: 'src/assets', cwd: 'src/assets/**' })
         .pipe(gulp.dest('build/assets'));
@@ -154,4 +144,33 @@ gulp.task('partials', function() {
     ];
     return gulp.src( sources )
         .pipe(gulp.dest('build'));
+})
+
+gulp.task('build', function (callback) {
+    runSequence('clean:build', ['sass', 'useref', 'images', 'fonts', 'assets', 'partials', 'browserify'], callback);
+})
+
+gulp.task('default', function (callback) {
+    runSequence(['sass', 'partials', 'browserify', 'browserSync', 'watch'], callback);
+})
+
+gulp.task('watch', [ 'sass', 'browserify', 'browserSync' ], function () {
+    gulp.watch('src/assets/scss/**/*.scss', ['sass'], function() {
+        browserSync.reload({ stream: true });
+    });
+    gulp.watch('src/assets/fonts/**/*.*', ['fonts'], function() {
+        browserSync.reload({ stream: true });
+    });
+    gulp.watch('src/*.html', ['useref'], function() {
+        browserSync.reload({ stream: true });
+    });
+    gulp.watch(CONFIG.partials.sources, ['partials'], function() {
+        browserSync.reload({ stream: true });
+    });
+    //   gulp.watch('src/**/*.js', browserSync.reload);
+    gulp.watch('src/**/*.js', ['browserify'], function () {
+        browserSync.reload({ stream: true });
+        
+    });
+
 })
