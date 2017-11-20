@@ -38,6 +38,7 @@ var CONFIG = {
         'js/**/*',
         'flag-icon-css/**/*.*',
         'font-awesome/**/*.*',
+        'css/**/*.css'
     ]
 }
 
