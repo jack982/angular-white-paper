@@ -42,6 +42,7 @@ var CONFIG = {
         'js/**/*',
         'flag-icon-css/**/*.*',
         'font-awesome/**/*.*',
+        'css/**/*.css'
     ],
     partials: {
         sources : [
@@ -70,6 +71,8 @@ gulp.task('sass', function () {
             stream: true
         }))
 })
+
+
 
 gulp.task('browserSync', function () {
     browserSync.init({
@@ -142,6 +145,7 @@ gulp.task('cache:clear', function (callback) {
     // return cache.clearAll(callback);
 })
 
+
 gulp.task('partials', function() {
     console.log("eseguo task partials");
     var sources = [
@@ -165,12 +169,14 @@ gulp.task('build', function (callback) {
 
 gulp.task('default', function (callback) {
     runSequence([ 'ng-config', 'sass', 'partials', 'browserify', 'browserSync', 'watch'], callback);
+
 })
 
 gulp.task('watch', [ 'sass', 'browserify', 'browserSync' ], function () {
     gulp.watch('src/assets/scss/**/*.scss', ['sass'], function() {
         browserSync.reload({ stream: true });
     });
+
     gulp.watch('src/*.html', ['useref'], function() {
         browserSync.reload({ stream: true });
     });
