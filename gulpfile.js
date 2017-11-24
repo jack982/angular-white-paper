@@ -166,11 +166,15 @@ gulp.task('assets', function() {
 
 
 gulp.task('build', function (callback) {
-    runSequence('clean:build', [ 'ng-config', 'sass', 'useref', 'images', 'fonts', 'assets', 'partials' ], 'browserify', callback);
+    runSequence('clean:build', [ 'ng-config', 'sass', 'useref', 'images', 'fonts', 'assets', 'partials', 'browserify' ], callback);
+})
+
+gulp.task('build:test', function(callback) {
+    runSequence('build', 'test', callback);
 })
 
 gulp.task('default', function (callback) {
-    runSequence([ 'ng-config', 'sass', 'partials', 'browserify', 'browserSync', 'watch'], callback);
+    runSequence(['ng-config', 'sass', 'partials', 'browserify', 'browserSync', 'test', 'watch' ], callback);
 })
 
 gulp.task('test', function (done) {
@@ -198,7 +202,7 @@ gulp.task('watch', [ 'sass', 'browserify', 'browserSync' ], function () {
         runSequence(['partials'], browserSync.reload);
     })
     gulp.watch('src/**/*.js', function () {
-        runSequence(['browserify'], browserSync.reload);
+        runSequence(['browserify', 'test'], browserSync.reload);
     });
 
 })
