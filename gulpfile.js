@@ -15,6 +15,9 @@ var imagemin = require('gulp-imagemin');
 var del = require('del');
 var runSequence = require('run-sequence');
 var ngConfig = require('gulp-ng-config');
+var karma = require('karma');
+
+var karmaServer = karma.Server;
 
 var ENV = process.env.APP_ENV || 'development';
 
@@ -147,7 +150,6 @@ gulp.task('cache:clear', function (callback) {
 
 
 gulp.task('partials', function() {
-    console.log("eseguo task partials");
     var sources = [
                 'src/**/*.html',
                 'src/**/*.json',
@@ -164,33 +166,39 @@ gulp.task('assets', function() {
 
 
 gulp.task('build', function (callback) {
-    runSequence('clean:build', [ 'ng-config', 'sass', 'useref', 'images', 'fonts', 'assets', 'partials', 'browserify'], callback);
+    runSequence('clean:build', [ 'ng-config', 'sass', 'useref', 'images', 'fonts', 'assets', 'partials' ], 'browserify', callback);
 })
 
 gulp.task('default', function (callback) {
     runSequence([ 'ng-config', 'sass', 'partials', 'browserify', 'browserSync', 'watch'], callback);
-
 })
 
+gulp.task('test', function (done) {
+    new karmaServer({
+        configFile: __dirname + '/test/karma.conf.js',
+        singleRun: true
+    }, function () {
+        done()
+    }).start();
+});
+
+
 gulp.task('watch', [ 'sass', 'browserify', 'browserSync' ], function () {
-    gulp.watch('src/assets/scss/**/*.scss', ['sass'], function() {
-        browserSync.reload({ stream: true });
+    gulp.watch('src/assets/scss/**/*.scss', function() {
+        runSequence(['sass'], browserSync.reload); // browserSync.reload({ stream: true });
     });
 
-    gulp.watch('src/*.html', ['useref'], function() {
-        browserSync.reload({ stream: true });
+    gulp.watch('src/*.html', function() {
+        runSequence(['useref'], browserSync.reload);
     });
-    gulp.watch('src/assets/fonts/**/*.*', ['fonts'], function() {
-        browserSync.reload({ stream: true });
+    gulp.watch('src/assets/fonts/**/*.*', function() {
+        runSequence(['fonts'], browserSync.reload);
     })
     gulp.watch( ['src/**/*.html', 'src/**/*.json','!src/index.html'], function() {
         runSequence(['partials'], browserSync.reload);
     })
-    gulp.watch('src/**/*.js', ['browserify'], function () {
-
-        browserSync.reload({ stream: true });
+    gulp.watch('src/**/*.js', function () {
+        runSequence(['browserify'], browserSync.reload);
     });
 
 })
-
-gulp.task('browser-reload', function() {browserSync.reload({stream:true})});

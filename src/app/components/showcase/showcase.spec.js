@@ -1,6 +1,5 @@
 describe('Angular White Paper Test Suite', function () {
 
-  require('angular');
   beforeEach(angular.mock.module('app.showcase'));
 
   describe('Testing SHOWCASE controller', function () {

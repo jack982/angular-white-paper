@@ -7,12 +7,10 @@ function showcase(featuresService) {
 
     vm.item = null;
 
-   
     vm.addItem = function () {
         featuresService.add(vm.item);
         vm.item = null;
     }; 
-
 }
 
 showcase.$inject = ['featuresService'];
