@@ -11,6 +11,7 @@ require('angular-translate-storage-local');
 require('angular-translate-storage-cookie');
 require('angular-animate');
 require('angularjs-toaster');
+require('angular-sweetalert');
 
 
 
@@ -35,6 +36,7 @@ angular.module('angularWhitePaper', [ 'ngAnimate',
                                         'ngCookies',
                                         'ngAnimate',
                                         'toaster',
+                                        'oitozero.ngSweetAlert',
                                         'app.constants',
                                         'app.shared',
                                         'app.shared.logger',

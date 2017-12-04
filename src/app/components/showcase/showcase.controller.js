@@ -1,4 +1,4 @@
-function showcase(featuresService) {
+function showcase(featuresService, SweetAlert) {
     'use strict';
 
     var vm = this;
@@ -11,8 +11,12 @@ function showcase(featuresService) {
         featuresService.add(vm.item);
         vm.item = null;
     }; 
+
+    vm.swal = function() {
+        SweetAlert.swal("soon will be sweet");
+    };
 }
 
-showcase.$inject = ['featuresService'];
+showcase.$inject = ['featuresService', 'SweetAlert'];
 
 module.exports = showcase;
