@@ -45,7 +45,8 @@ var CONFIG = {
         'js/**/*',
         'flag-icon-css/**/*.*',
         'font-awesome/**/*.*',
-        'css/**/*.css'
+        'css/**/*.css',
+        'sweetalert/**/*.*'
     ],
     partials: {
         sources : [
@@ -170,7 +171,7 @@ gulp.task('build', function (callback) {
 })
 
 gulp.task('build:test', function(callback) {
-    runSequence('build', 'test', callback);
+    runSequence('build', 'test', callback);s
 })
 
 gulp.task('default', function (callback) {

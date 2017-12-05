@@ -72,15 +72,17 @@
     "angular-animate": "1.6.6",
     "angular-cookies": "1.6.6",
     "angular-mocks": "1.6.6",
-    "angular-ui-router": "0.4.3",
+    "angular-sweetalert": "^1.1.2",
     "angular-translate": "^2.13.1",
     "angular-translate-loader-partial": "^2.13.1",
     "angular-translate-loader-static-files": "^2.13.1",
     "angular-translate-storage-cookie": "^2.13.1",
     "angular-translate-storage-local": "^2.13.1",
+    "angular-ui-router": "0.4.3",
     "angularjs-toaster": "^2.1.0",
     "bootstrap": "^3.3.7",
     "browserify-angular-animate": "^1.2.18",
-    "fontawesome": "^4.7.0"
+    "fontawesome": "^4.7.0",
+    "sweetalert": "^2.0.8"
   }
 }
