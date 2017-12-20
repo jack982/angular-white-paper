@@ -14,5 +14,5 @@ function showcase(featuresService) {
 }
 
 showcase.$inject = ['featuresService'];
-
+  
 module.exports = showcase;
