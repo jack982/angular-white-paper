@@ -40,7 +40,7 @@ var features = function () {
         {
           name: 'PhantomJS',
           version: '1.0',
-          url:  'assets/images/logo/phantomjs.png'
+          url:  'assets/images/logo/phantomJS.png'
         }
     ];
 
